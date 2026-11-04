@@ -1,0 +1,108 @@
+@import 'normalize.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+  height: 100%;
+  /* Prevent horizontal overflow at root level and enable smooth scrolling */
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-mono), 'Ubuntu Mono', monospace;
+  font-size: 1.6rem;
+  background-color: #282c34;
+  color: #abb2bf;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+a {
+  color: #abb2bf;
+  text-decoration: none;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+a:visited {
+  color: #9aa1ad;
+}
+
+a:hover {
+  color: #c2c2c2;
+}
+
+.color-transform {
+  transition: color 0.15s ease;
+}
+
+/* Responsive images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Scrollbar styles to match VS Code dark theme */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #21252b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3e4451;
+  border-radius: 4px;
+  transition: background-color 0.15s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4b5263;
+}
+
+/* Accessibility: Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Mobile font-size adjustments */
+@media screen and (max-width: 480px) {
+  html {
+    font-size: 56.25%; /* 9px base → 1rem = 9px */
+  }
+}
+
+/* Large screen font-size boost */
+@media screen and (min-width: 1920px) {
+  html {
+    font-size: 68.75%; /* 11px base */
+  }
+}

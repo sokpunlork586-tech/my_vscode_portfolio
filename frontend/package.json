@@ -1,0 +1,58 @@
+{
+  "name": "developer-portfolio-app",
+  "version": "2.0.0",
+  "description": "VS Code/Atom One Dark inspired developer portfolio app.",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sokpunlork586-tech/my_vscode_portfolio"
+  },
+  "homepage": "https://turali.js.org",
+  "license": "GNU GPLv3",
+  "scripts": {
+    "clean": "node -e \"require('fs').rmSync('.next', { recursive: true, force: true })\"",
+    "predev": "node -e \"if (require('fs').existsSync('.next/BUILD_ID')) require('fs').rmSync('.next', { recursive: true, force: true })\"",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:update": "jest -u",
+    "progress": "ts-node -O '{\"module\":\"commonjs\"}' scripts/updateProgress.ts"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-brands-svg-icons": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "clsx": "^2.1.1",
+    "color": "^4.2.3",
+    "dayjs": "^1.11.13",
+    "next": "14.2.24",
+    "normalize.css": "^8.0.1",
+    "react": "^18.3.1",
+    "react-circular-progressbar": "^2.1.0",
+    "react-dom": "^18.3.1",
+    "react-jss": "^10.10.0",
+    "react-markdown": "^9.0.1",
+    "react-tooltip": "^5.28.0",
+    "typed.js": "^2.1.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/color": "^3.0.6",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^20.17.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "14.2.24",
+    "jest": "^30.5.2",
+    "jest-environment-jsdom": "^30.5.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}

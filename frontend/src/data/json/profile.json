@@ -1,0 +1,39 @@
+{
+  "name": "Punlork",
+  "fullName": "Punlork Sok",
+  "role": "Full-Stack & Python Developer",
+  "status": "Available for projects",
+  "techStack": [
+    "Python",
+    "FastAPI",
+    "TypeScript",
+    "React 18",
+    "Next.js 14",
+    "PostgreSQL",
+    "Node.js",
+    "REST APIs",
+    "Git"
+  ],
+  "quickNavigation": [
+    {
+      "label": "Software Engineering",
+      "href": "/swe"
+    },
+    {
+      "label": "Business Administration",
+      "href": "/ba"
+    },
+    {
+      "label": "Core Skills (skills.js)",
+      "href": "/skills"
+    },
+    {
+      "label": "Projects",
+      "href": "/projects"
+    },
+    {
+      "label": "Contact (contact.json)",
+      "href": "/contact"
+    }
+  ]
+}

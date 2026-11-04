@@ -13,4 +13,3 @@ Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd '$PSScriptRoot
 Write-Host "Both services are launching in separate windows:"
 Write-Host "FastAPI API:      http://127.0.0.1:8000/docs"
 Write-Host "Admin Dashboard:  http://127.0.0.1:3001"
-

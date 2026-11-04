@@ -1,0 +1,11 @@
+{
+  "title": "Punlork Sok | Software Engineer & Full-Stack Developer",
+  "description": "Punlork Sok's personal portfolio website",
+  "keywords": "Punlork Sok, Software Engineer, Full-Stack Developer, Python, FastAPI, React, Next.js, TypeScript, PostgreSQL, REST APIs",
+  "homepage": "https://punlork.dev",
+  "themeColor": "#21252b",
+  "image": "/images/profile.png",
+  "verification": {
+    "google": ""
+  }
+}
