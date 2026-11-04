@@ -1,0 +1,232 @@
+# ==============================================================================
+# ROOT .GITIGNORE — FULL-STACK NEXT.JS + FASTAPI + POSTGRESQL WORKSPACE
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. ENVIRONMENT CONFIGURATIONS & SECRETS (STRICT SECURITY)
+# ------------------------------------------------------------------------------
+.env
+.env.*
+*.env
+*.env.*
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+
+# Explicitly preserve template / example files
+!.env.example
+!.env.template
+!*.env.example
+
+# Private Keys, Certificates, and Credentials
+*.pem
+*.key
+*.pub
+*.cert
+*.crt
+*.pfx
+*.p12
+*.keystore
+*.jks
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+credentials.json
+service-account*.json
+secrets/
+*.secret
+
+# ------------------------------------------------------------------------------
+# 2. DEPENDENCIES & PACKAGE MANAGERS (NODE.JS & JAVASCRIPT)
+# ------------------------------------------------------------------------------
+node_modules/
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+.pnp/
+.pnp.js
+
+# ------------------------------------------------------------------------------
+# 3. NEXT.JS / REACT / FRONTEND BUILD OUTPUTS
+# ------------------------------------------------------------------------------
+.next/
+**/.next/
+out/
+**/out/
+build/
+**/build/
+dist/
+**/dist/
+.open-next/
+storybook-static/
+
+# TypeScript cache
+*.tsbuildinfo
+next-env.d.ts.bak
+
+# Linter & Formatter cache
+.eslintcache
+.stylelintcache
+.prettiercache
+.turbo/
+.cache/
+
+# ------------------------------------------------------------------------------
+# 4. PYTHON / FASTAPI / BACKEND ARTIFACTS
+# ------------------------------------------------------------------------------
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+develop-eggs/
+eggs/
+.eggs/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ------------------------------------------------------------------------------
+# 5. PYTHON VIRTUAL ENVIRONMENTS
+# ------------------------------------------------------------------------------
+.venv/
+**/.venv/
+venv/
+**/venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# ------------------------------------------------------------------------------
+# 6. TESTING, CODE COVERAGE & PROFILING
+# ------------------------------------------------------------------------------
+.pytest_cache/
+**/.pytest_cache/
+.coverage
+.coverage.*
+coverage/
+**/coverage/
+htmlcov/
+.hypothesis/
+.tox/
+.nox/
+nosetests.xml
+coverage.xml
+*.cover
+.jest-cache/
+**/.jest-cache/
+junit/
+
+# ------------------------------------------------------------------------------
+# 7. POSTGRESQL & LOCAL DATABASE FILES
+# ------------------------------------------------------------------------------
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-shm
+*.db-wal
+postgres-data/
+pgdata/
+**/pgdata/
+*.dump
+*.sql.bak
+
+# ------------------------------------------------------------------------------
+# 8. DOCKER & CONTAINER OVERRIDES
+# ------------------------------------------------------------------------------
+.docker/
+docker-compose.override.yml
+*docker*.local
+
+# ------------------------------------------------------------------------------
+# 9. IDE & CODE EDITOR METADATA
+# ------------------------------------------------------------------------------
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+.history/
+
+# JetBrains (WebStorm, PyCharm, IntelliJ, etc.)
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text / Eclipse / NetBeans
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+
+# ------------------------------------------------------------------------------
+# 10. OPERATING SYSTEM GENERATED FILES
+# ------------------------------------------------------------------------------
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ------------------------------------------------------------------------------
+# 11. GENERAL LOGS & TEMPORARY FILES
+# ------------------------------------------------------------------------------
+logs/
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# ------------------------------------------------------------------------------
+# 12. CRITICAL PROJECT FILES (NEVER IGNORE)
+# ------------------------------------------------------------------------------
+!package.json
+!package-lock.json
+!pnpm-lock.yaml
+!yarn.lock
+!requirements.txt
+!Dockerfile
+!docker-compose.yml
+!Jenkinsfile
+!.gitignore
+!.gitkeep
+
