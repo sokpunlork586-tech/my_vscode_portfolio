@@ -6,8 +6,8 @@ import { Code2, Lock, Mail, ArrowRight, AlertCircle, Minus, Square, X } from "lu
 import { useAuth } from "@/context/AuthContext";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("admin@portfolio.com");
-  const [password, setPassword] = useState("Admin1234!");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -42,7 +42,7 @@ export default function LoginPage() {
           <Code2 className="w-4 h-4 text-vscode-blueActive" />
           <span className="text-[11px] text-vscode-textLight">Visual Studio Code</span>
         </div>
-        <div className="text-[11px] text-vscode-textDark">Authentication — Sign In</div>
+        <div className="text-[11px] text-vscode-textDark">Authentication - Sign In</div>
         <div className="flex items-center text-vscode-textDark">
           <button className="w-6 h-6 flex items-center justify-center hover:bg-vscode-bgHover">
             <Minus className="w-3 h-3" />
@@ -89,7 +89,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-vscode-inputBg border border-vscode-borderLight rounded pl-8 pr-3 py-1.5 text-xs text-vscode-textWhite focus:outline-none focus:border-vscode-blueActive transition-colors"
-                  placeholder="admin@portfolio.com"
+                  placeholder="admin@example.com"
                 />
               </div>
             </div>
@@ -104,7 +104,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full bg-vscode-inputBg border border-vscode-borderLight rounded pl-8 pr-3 py-1.5 text-xs text-vscode-textWhite focus:outline-none focus:border-vscode-blueActive transition-colors"
-                  placeholder="••••••••"
+                  placeholder="Enter your password"
                 />
               </div>
             </div>
@@ -124,13 +124,6 @@ export default function LoginPage() {
               )}
             </button>
           </form>
-
-          <div className="mt-5 pt-4 border-t border-vscode-border text-center">
-            <p className="text-[10px] text-vscode-textDark">
-              Seed: <span className="text-vscode-cyan">admin@portfolio.com</span> /{" "}
-              <span className="text-vscode-yellow">Admin1234!</span>
-            </p>
-          </div>
         </div>
       </div>
     </div>
