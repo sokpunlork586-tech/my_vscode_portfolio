@@ -1,42 +1,44 @@
-# :warning::warning: This project is no longer maintained. :warning::warning:
+# VS Code Developer Portfolio (Frontend)
 
-[![Build Status](https://travis-ci.com/caglarturali/caglarturali.github.io.svg?branch=master)](https://travis-ci.com/caglarturali/caglarturali.github.io)
+Interactive developer portfolio web application inspired by the **VS Code / Atom One Dark** theme. Built with **Next.js 14**, **React 18**, and **TypeScript**.
 
-## What's this?
+## Features
 
-[VS Code](https://code.visualstudio.com/) / [Atom One Dark](https://marketplace.visualstudio.com/items?itemName=akamud.vscode-theme-onedark) inspired developer portfolio app. :blush:
+- **VS Code Interface:** Activity bar, sidebar file explorer, editor tabs, status bar, and integrated terminal look-and-feel.
+- **Dynamic Content:** Showcases software engineering projects, skills, education, experience, and contact forms.
+- **Interactive Terminal:** Run custom terminal commands in the browser.
+- **Responsive Design:** Optimized layout for desktop and mobile devices.
 
-### Screenshot
+## Getting Started
 
-![](demo.gif)
+### Prerequisites
 
-## How to ...
+Ensure you have **Node.js 18+** and **npm** or **pnpm** installed.
 
-### ... run locally?
+### Installation
 
-Make sure you have [Node](https://nodejs.org/en/) and [git](https://git-scm.com/) installed.
+1. Navigate to the `frontend` directory:
+   ```bash
+   cd frontend
+   ```
 
-- Clone the repo:
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-  ```bash
-  git clone https://github.com/caglarturali/caglarturali.git portfolio-app
-  cd portfolio-app
-  ```
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
 
-- Install the dependencies:
+4. Open your browser at [http://localhost:3000](http://localhost:3000).
 
-  ```bash
-  npm install
-  ```
+## Available Scripts
 
-- Fire up a development server:
-
-  ```bash
-  npm start
-  ```
-
-#### Credits
-
-- [typed.js](https://github.com/mattboldt/typed.js/) by [@mattboldt](https://github.com/mattboldt)
-
-- [multilanguage-hello-json](https://github.com/novellac/multilanguage-hello-json) by [@novellac](https://github.com/novellac)
+- `npm run dev`: Starts the Next.js development server.
+- `npm run build`: Compiles the optimized production build.
+- `npm run start`: Runs the built production server.
+- `npm run typecheck`: Runs TypeScript type checking with `tsc --noEmit`.
+- `npm run lint`: Runs ESLint checks.
+- `npm test`: Runs Jest unit tests.

@@ -1,13 +1,13 @@
 {
-  "name": "developer-portfolio-app",
-  "version": "2.0.0",
-  "description": "VS Code/Atom One Dark inspired developer portfolio app.",
+  "name": "vscode-portfolio",
+  "version": "1.0.0",
+  "description": "Punlork Sok's VS Code-styled developer portfolio website.",
   "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/sokpunlork586-tech/my_vscode_portfolio"
   },
-  "homepage": "https://turali.js.org",
+  "homepage": "https://punlork.dev",
   "license": "GNU GPLv3",
   "scripts": {
     "clean": "node -e \"require('fs').rmSync('.next', { recursive: true, force: true })\"",
