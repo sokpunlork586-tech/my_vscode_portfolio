@@ -23,3 +23,4 @@ class Profile(Base):
         onupdate=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
+

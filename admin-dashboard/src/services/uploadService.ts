@@ -15,3 +15,4 @@ export const uploadService = {
     return api.post<UploadResponse>("/upload", formData);
   },
 };
+

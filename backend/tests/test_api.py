@@ -194,3 +194,4 @@ def test_upload_endpoint(auth_headers):
     data = res.json()
     assert "url" in data
     assert data["url"].startswith("/uploads/")
+

@@ -16,3 +16,4 @@ export const experienceService = {
 
   delete: (id: number) => api.delete<void>(`/experience/${id}`),
 };
+

@@ -16,3 +16,4 @@ export const certificateService = {
 
   delete: (id: number) => api.delete<void>(`/certificates/${id}`),
 };
+

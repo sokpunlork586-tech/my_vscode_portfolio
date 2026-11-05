@@ -468,3 +468,4 @@ export default function EducationPage() {
     </DashboardLayout>
   );
 }
+

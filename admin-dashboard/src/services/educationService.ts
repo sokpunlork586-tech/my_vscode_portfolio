@@ -16,3 +16,4 @@ export const educationService = {
 
   delete: (id: number) => api.delete<void>(`/education/${id}`),
 };
+

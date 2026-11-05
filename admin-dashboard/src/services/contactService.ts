@@ -17,3 +17,4 @@ export const contactService = {
   deleteSocialLink: (id: number) =>
     api.delete<void>(`/contact/social-links/${id}`),
 };
+
