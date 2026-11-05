@@ -1,3 +1,5 @@
+import logging
+from pathlib import Path
 from typing import Any, List
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
@@ -6,7 +8,32 @@ from app.models.skill import Skill
 from app.models.user import User
 from app.schemas.skill import SkillCreate, SkillUpdate, SkillResponse
 
+logger = logging.getLogger("skills")
 router = APIRouter()
+
+WORKSPACE_ROOT = Path(__file__).resolve().parents[5]
+SKILLS_MD_PATH = WORKSPACE_ROOT / "frontend" / "src" / "data" / "tabs" / "skills.md"
+
+
+def sync_skills_to_markdown(db: Session) -> None:
+    try:
+        skills = db.query(Skill).order_by(Skill.category.asc(), Skill.order.asc(), Skill.name.asc()).all()
+        categories: dict[str, list[Skill]] = {}
+        for s in skills:
+            categories.setdefault(s.category, []).append(s)
+
+        lines = ["### Technical Skills\n"]
+        for cat, items in categories.items():
+            lines.append(f"#### {cat}\n")
+            for item in items:
+                lines.append(f"- **{item.name}** — {item.proficiency}%")
+            lines.append("")
+
+        SKILLS_MD_PATH.parent.mkdir(parents=True, exist_ok=True)
+        with open(SKILLS_MD_PATH, "w", encoding="utf-8") as f:
+            f.write("\n".join(lines).strip() + "\n")
+    except Exception as e:
+        logger.warning(f"Could not sync skills.md: {e}")
 
 
 @router.get("", response_model=List[SkillResponse])
@@ -30,6 +57,7 @@ def create_skill(
     db.add(skill)
     db.commit()
     db.refresh(skill)
+    sync_skills_to_markdown(db)
     return skill
 
 
@@ -50,6 +78,7 @@ def update_skill(
 
     db.commit()
     db.refresh(skill)
+    sync_skills_to_markdown(db)
     return skill
 
 
@@ -64,5 +93,6 @@ def delete_skill(
         raise HTTPException(status_code=404, detail="Skill not found")
     db.delete(skill)
     db.commit()
+    sync_skills_to_markdown(db)
     return None
 

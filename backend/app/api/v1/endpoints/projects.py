@@ -9,9 +9,8 @@ from app.schemas.project import ProjectCreate, ProjectUpdate, ProjectResponse, P
 
 router = APIRouter()
 
-BACKEND_DIR = Path(__file__).resolve().parents[4]
-WORKSPACE_ROOT = BACKEND_DIR.parent
-PROJECTS_MD_PATH = WORKSPACE_ROOT / "vscode-portfolio" / "src" / "data" / "tabs" / "projects.md"
+WORKSPACE_ROOT = Path(__file__).resolve().parents[5]
+PROJECTS_MD_PATH = WORKSPACE_ROOT / "frontend" / "src" / "data" / "tabs" / "projects.md"
 
 
 def sync_projects_to_markdown(db: Session) -> None:

@@ -9,9 +9,8 @@ from app.schemas.profile import ProfileData, ProfileUpdate
 
 router = APIRouter()
 
-BACKEND_DIR = Path(__file__).resolve().parents[4]
-WORKSPACE_ROOT = BACKEND_DIR.parent
-PROFILE_JSON_PATH = WORKSPACE_ROOT / "vscode-portfolio" / "src" / "data" / "json" / "profile.json"
+WORKSPACE_ROOT = Path(__file__).resolve().parents[5]
+PROFILE_JSON_PATH = WORKSPACE_ROOT / "frontend" / "src" / "data" / "json" / "profile.json"
 
 
 def get_profile_data() -> dict:

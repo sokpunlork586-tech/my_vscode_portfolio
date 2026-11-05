@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { X, Code2 } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { X, Code2, Upload, Image as ImageIcon } from "lucide-react";
 import { Project } from "@/types";
+import { uploadService } from "@/services/uploadService";
 
 interface ProjectModalProps {
   isOpen: boolean;
@@ -25,7 +26,25 @@ export function ProjectModal({ isOpen, project, onClose, onSave }: ProjectModalP
     order: 0,
   });
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setUploading(true);
+      setError(null);
+      const res = await uploadService.uploadFile(file, "projects");
+      setFormData((prev) => ({ ...prev, image_url: res.url }));
+    } catch (err: any) {
+      setError(err?.message || "Failed to upload project screenshot.");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   useEffect(() => {
     if (project) {
@@ -204,6 +223,35 @@ export function ProjectModal({ isOpen, project, onClose, onSave }: ProjectModalP
                 className="w-full bg-vscode-inputBg border border-vscode-borderLight rounded px-3 py-1.5 text-xs text-vscode-textWhite focus:outline-none focus:border-vscode-blueActive"
                 placeholder="https://github.com/..."
               />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-vscode-textLight mb-1 text-[11px]">// project_image_url_or_upload</label>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={formData.image_url || ""}
+                onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                className="flex-1 bg-vscode-inputBg border border-vscode-borderLight rounded px-3 py-1.5 text-xs text-vscode-textWhite focus:outline-none focus:border-vscode-blueActive"
+                placeholder="/uploads/projects/shot.png or https://..."
+              />
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileUpload}
+                accept="image/*"
+                className="hidden"
+              />
+              <button
+                type="button"
+                disabled={uploading}
+                onClick={() => fileInputRef.current?.click()}
+                className="px-3 py-1.5 text-xs bg-vscode-bgMid hover:bg-vscode-bgHover border border-vscode-borderLight rounded text-vscode-textLight flex items-center gap-1.5 shrink-0 disabled:opacity-50"
+              >
+                <Upload className="w-3.5 h-3.5" />
+                <span>{uploading ? "Uploading..." : "Upload Screenshot"}</span>
+              </button>
             </div>
           </div>
 

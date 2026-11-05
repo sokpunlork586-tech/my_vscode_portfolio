@@ -1,27 +1,22 @@
 ### Certificates that I have earned over time
 
-- [Full-Stack Web Development with React Specialization](https://www.coursera.org/account/accomplishments/specialization/certificate/XGPU5C68VAEE)
+- [Full-Stack Web Development with React & Node](https://www.coursera.org)
 
-  - [Front-End Web UI Frameworks and Tools: Bootstrap 4](https://www.coursera.org/account/accomplishments/certificate/TQ2HAVM6JJ73)
-  - [Front-End Web Development with React](https://www.coursera.org/account/accomplishments/certificate/QJPWRV28SCV3)
-  - [Multiplatform Mobile App Development with React Native](https://www.coursera.org/account/accomplishments/certificate/GNX5WEXJWSGY)
-  - [Server-Side Development with NodeJS, Express and MongoDB](https://www.coursera.org/account/accomplishments/certificate/XGMAYMHEXDZW)
+  - Issuer: Coursera / Meta
+  - Issued: 2023
+  - Credential ID: `CERT-REACT-88231`
+  - Comprehensive mastery of React component trees, state management, REST APIs, and database connectivity.
 
-- [freeCodeCamp | The Full Stack Development Certificate](https://guide.freecodecamp.org/certifications/)
+- [Python Backend & RESTful API Architecture](https://www.coursera.org)
 
-  - [Responsive Web Design Certification](https://www.freecodecamp.org/certification/caglarturali/responsive-web-design)
-  - [JavaScript Algorithms and Data Structures Certification](https://www.freecodecamp.org/certification/caglarturali/javascript-algorithms-and-data-structures)
+  - Issuer: Coursera / DeepLearning.AI
+  - Issued: 2023
+  - Credential ID: `CERT-PY-45910`
+  - Advanced asynchronous programming in Python with FastAPI, SQLAlchemy ORM, and automated unit testing.
 
-- [Game Design and Development Specialization](https://www.coursera.org/specializations/game-development)
+- [Responsive Web Design & Algorithms](https://www.freecodecamp.org)
 
-  - [Introduction to Game Development](https://www.coursera.org/account/accomplishments/certificate/GKDBNAGKPD6M)
-
-- [Virtual Reality Specialization](https://www.coursera.org/specializations/virtual-reality)
-
-  - [Introduction to Virtual Reality](https://www.coursera.org/account/accomplishments/certificate/UC3L666SD5TG)
-  - [3D Models for Virtual Reality](https://www.coursera.org/account/accomplishments/certificate/4YHK3LYWMJPV)
-
-- [Music Production Specialization](https://www.coursera.org/specializations/music-production)
-  - [The Art of Music Production](https://www.coursera.org/account/accomplishments/certificate/DNVYLQQL3WVF)
-  - [The Technology of Music Production](https://www.coursera.org/account/accomplishments/certificate/VZDUNEC24XER)
-  - [Pro Tools Basics](https://www.coursera.org/account/accomplishments/certificate/YW4QY26UHC5F)
+  - Issuer: freeCodeCamp
+  - Issued: 2022
+  - Credential ID: `FCC-WD-9942`
+  - JavaScript algorithms, data structures, responsive layouts, and modern CSS techniques.

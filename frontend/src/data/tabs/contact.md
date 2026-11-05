@@ -1,33 +1,28 @@
-### 📬 Get in Touch / Contact Me
+### Contact Information
 
-I am always open to discussing new projects, software engineering opportunities, or technology collaborations.
+Feel free to reach out for software engineering inquiries, consulting, or full-time opportunities.
 
 ---
-
-#### ✉️ Direct Contact
+- **Developer:** Punlork
+- **Role:** Full-Stack & Python Developer
+- **Location:** Cambodia (ICT (UTC+7))
+- **Status:** Available for contract / full-time
+- **Preferred Contact:** Email
+- **Response Window:** Within 24 hours
+- **GitHub:** [https://github.com/sokpunlork586-tech](https://github.com/sokpunlork586-tech)
+- **LinkedIn:** [https://linkedin.com](https://linkedin.com)
 - **Email:** [sokpunlork586@gmail.com](mailto:sokpunlork586@gmail.com)
-- **Status:** Available for full-time / freelance opportunities
-- **Location:** Cambodia
-- **Timezone:** ICT (UTC+7)
 
 ---
 
-#### 🌐 Developer & Professional Profiles
-- **GitHub:** [sokpunlork586-tech](https://github.com/sokpunlork586-tech)
-- **LinkedIn:** [Çağlar Turalı](https://linkedin.com/in/caglarturali)
-- **Portfolio Repository:** [sokpunlork586-tech/my_vscode_portfolio](https://github.com/sokpunlork586-tech/my_vscode_portfolio)
-
----
-
-#### 💻 Contact Configuration (`contact.json`)
+#### Contact Configuration (`contact.json`)
 ```json
 {
   "developer": "Punlork",
-  "title": "Software Engineering Apprentice & Full-Stack Developer",
+  "title": "Full-Stack & Python Developer",
   "email": "sokpunlork586@gmail.com",
   "github": "https://github.com/sokpunlork586-tech",
   "preferredMethod": "Email",
   "responseWindow": "Within 24 hours"
 }
 ```
-

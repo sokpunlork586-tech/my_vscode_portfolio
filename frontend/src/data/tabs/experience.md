@@ -1,10 +1,18 @@
 ### Professional Experience
 
-- **Software Developer** @ [Company Name](https://example.com) *(2023 - Present)*
-  - Designed and developed scalable full-stack web applications using `React`, `TypeScript`, and `Next.js`.
-  - Built RESTful and GraphQL APIs with `Node.js` and `Express`.
-  - Collaborated with cross-functional teams to deliver high quality code and intuitive user interfaces.
+- **Full-Stack Developer** @ [Tech Innovators Lab](https://example.com/innovators) *(2023 - Present)*
 
-- **Frontend Developer** @ [Company Name](https://example.com) *(2022 - 2023)*
-  - Developed responsive, modern web interfaces with focus on user experience and web performance.
-  - Worked with modern state management, styled components, and automated testing.
+  - Location: Phnom Penh, Cambodia
+  - Type: Full-time
+  - Designed and deployed microservices with FastAPI and Next.js.
+  - Architected PostgreSQL databases and Redis caching layers.
+  - Collaborated in agile sprint cycles.
+  - Tech Stack: `Python`, `FastAPI`, `Next.js`, `TypeScript`, `PostgreSQL`, `Docker`
+
+- **Frontend Developer** @ [Digital Solutions Agency](https://example.com/solutions) *(2022 - 2023)*
+
+  - Location: Phnom Penh, Cambodia
+  - Type: Contract
+  - Developed responsive single page applications and client web portals.
+  - Enhanced accessibility and Core Web Vitals performance.
+  - Tech Stack: `React`, `TypeScript`, `Tailwind CSS`, `REST APIs`

@@ -8,9 +8,8 @@ from app.schemas.intro import IntroResponse, IntroUpdate
 
 router = APIRouter()
 
-BACKEND_DIR = Path(__file__).resolve().parents[4]
-WORKSPACE_ROOT = BACKEND_DIR.parent
-STATIC_JSON_PATH = WORKSPACE_ROOT / "vscode-portfolio" / "src" / "data" / "json" / "static.json"
+WORKSPACE_ROOT = Path(__file__).resolve().parents[5]
+STATIC_JSON_PATH = WORKSPACE_ROOT / "frontend" / "src" / "data" / "json" / "static.json"
 
 
 def get_static_data() -> dict:

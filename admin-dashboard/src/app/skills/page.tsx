@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Plus, Cpu, Trash2, Edit2, X, FileCode } from "lucide-react";
+import { Plus, Cpu, Trash2, Edit2, X, FileCode, Search, CheckCircle, AlertCircle } from "lucide-react";
 import { DashboardLayout } from "@/components/Layout/DashboardLayout";
 import { skillService } from "@/services/skillService";
 import { Skill } from "@/types";
@@ -9,6 +9,8 @@ import { Skill } from "@/types";
 export default function SkillsPage() {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [notification, setNotification] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingSkill, setEditingSkill] = useState<Skill | null>(null);
 
@@ -16,14 +18,21 @@ export default function SkillsPage() {
   const [category, setCategory] = useState("Frontend");
   const [proficiency, setProficiency] = useState(85);
   const [order, setOrder] = useState(1);
+  const [submitting, setSubmitting] = useState(false);
+
+  const showNotify = (type: "success" | "error", message: string) => {
+    setNotification({ type, message });
+    setTimeout(() => setNotification(null), 4000);
+  };
 
   const fetchSkills = React.useCallback(async () => {
     try {
       setLoading(true);
       const data = await skillService.list();
       setSkills(data);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Failed to load skills:", err);
+      showNotify("error", err?.message || "Failed to load skills.");
     } finally {
       setLoading(false);
     }
@@ -61,23 +70,46 @@ export default function SkillsPage() {
 
   const handleSave = React.useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
-    if (editingSkill) {
-      await skillService.update(editingSkill.id, { name, category, proficiency, order });
-    } else {
-      await skillService.create({ name, category, proficiency, order });
+    if (!name.trim()) {
+      showNotify("error", "Skill name is required.");
+      return;
     }
-    setIsModalOpen(false);
-    fetchSkills();
+    try {
+      setSubmitting(true);
+      if (editingSkill) {
+        await skillService.update(editingSkill.id, { name: name.trim(), category, proficiency, order });
+        showNotify("success", "Skill updated successfully.");
+      } else {
+        await skillService.create({ name: name.trim(), category, proficiency, order });
+        showNotify("success", "Skill created successfully.");
+      }
+      setIsModalOpen(false);
+      fetchSkills();
+    } catch (err: any) {
+      showNotify("error", err?.message || "Failed to save skill.");
+    } finally {
+      setSubmitting(false);
+    }
   }, [editingSkill, name, category, proficiency, order, fetchSkills]);
 
   const handleDelete = React.useCallback(async (id: number) => {
     if (confirm("Delete this skill?")) {
-      await skillService.delete(id);
-      fetchSkills();
+      try {
+        await skillService.delete(id);
+        showNotify("success", "Skill deleted.");
+        fetchSkills();
+      } catch (err: any) {
+        showNotify("error", err?.message || "Failed to delete skill.");
+      }
     }
   }, [fetchSkills]);
 
-  const categories = Array.from(new Set(skills.map((s) => s.category)));
+  const filteredSkills = skills.filter((s) => {
+    const q = search.toLowerCase();
+    return s.name.toLowerCase().includes(q) || s.category.toLowerCase().includes(q);
+  });
+
+  const categories = Array.from(new Set(filteredSkills.map((s) => s.category)));
 
   return (
     <DashboardLayout>
@@ -100,6 +132,41 @@ export default function SkillsPage() {
           </button>
         </div>
 
+        {/* Notification Toast */}
+        {notification && (
+          <div
+            className={`flex items-center gap-2 px-3.5 py-2.5 rounded text-xs border ${
+              notification.type === "success"
+                ? "bg-emerald-950/40 border-emerald-500/50 text-emerald-300"
+                : "bg-rose-950/40 border-rose-500/50 text-rose-300"
+            }`}
+          >
+            {notification.type === "success" ? (
+              <CheckCircle className="w-4 h-4 shrink-0 text-emerald-400" />
+            ) : (
+              <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+            )}
+            <span>{notification.message}</span>
+          </div>
+        )}
+
+        {/* Search Toolbar */}
+        <div className="flex items-center gap-3 bg-vscode-bgDark border border-vscode-borderLight rounded p-2.5">
+          <div className="relative flex-1">
+            <Search className="w-3.5 h-3.5 text-vscode-textDark absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search skills by name or category..."
+              className="w-full bg-vscode-inputBg border border-vscode-borderLight rounded pl-8 pr-3 py-1 text-xs text-vscode-textWhite placeholder-vscode-textDark focus:outline-none focus:border-vscode-blueActive"
+            />
+          </div>
+          <span className="text-[11px] text-vscode-textDark shrink-0">
+            {filteredSkills.length} of {skills.length} skills
+          </span>
+        </div>
+
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[1, 2].map((i) => (
@@ -116,12 +183,12 @@ export default function SkillsPage() {
                     <h3 className="font-bold text-vscode-textWhite text-xs">namespace {cat}</h3>
                   </div>
                   <span className="text-[10px] text-vscode-textDark font-mono">
-                    [{skills.filter((s) => s.category === cat).length} items]
+                    [{filteredSkills.filter((s) => s.category === cat).length} items]
                   </span>
                 </div>
 
                 <div className="space-y-2.5">
-                  {skills
+                  {filteredSkills
                     .filter((s) => s.category === cat)
                     .map((item) => (
                       <div key={item.id} className="space-y-1 group">
@@ -233,9 +300,10 @@ export default function SkillsPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-3.5 py-1 text-white bg-vscode-blueActive hover:bg-vscode-blue font-semibold rounded shadow"
+                  disabled={submitting}
+                  className="px-3.5 py-1 text-white bg-vscode-blueActive hover:bg-vscode-blue font-semibold rounded shadow transition-opacity disabled:opacity-50"
                 >
-                  Save Skill
+                  {submitting ? "Saving..." : "Save Skill"}
                 </button>
               </div>
             </form>

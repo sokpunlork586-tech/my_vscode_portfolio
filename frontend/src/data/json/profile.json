@@ -3,6 +3,8 @@
   "fullName": "Punlork Sok",
   "role": "Full-Stack & Python Developer",
   "status": "Available for projects",
+  "avatarUrl": "/images/profile.png",
+  "bio": null,
   "techStack": [
     "Python",
     "FastAPI",
@@ -17,23 +19,28 @@
   "quickNavigation": [
     {
       "label": "Software Engineering",
-      "href": "/swe"
+      "href": "/swe",
+      "icon": "faGraduationCap"
     },
     {
       "label": "Business Administration",
-      "href": "/ba"
+      "href": "/ba",
+      "icon": "faBriefcase"
     },
     {
       "label": "Core Skills (skills.js)",
-      "href": "/skills"
+      "href": "/skills",
+      "icon": "faCodeBranch"
     },
     {
       "label": "Projects",
-      "href": "/projects"
+      "href": "/projects",
+      "icon": "faFolderOpen"
     },
     {
       "label": "Contact (contact.json)",
-      "href": "/contact"
+      "href": "/contact",
+      "icon": "faEnvelope"
     }
   ]
 }

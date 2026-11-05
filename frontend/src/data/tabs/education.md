@@ -1,18 +1,16 @@
-### My \[academic\] background
+### My [academic] background
 
-- [Software Engineering](/swe)
+- [Software Engineering Apprenticeship](/swe)
 
   - Apprenticeship Program
-  - 2020-...
+  - Full-Stack Web & Software Engineering
+  - 2022 - Present
+  - Intensive apprenticeship in modern full-stack web architecture, React, Next.js, and Python backend services.
 
-- [Computer Education and Instructional Technologies](https://bote.kku.edu.tr/)
+- [University of Technology](https://example.com/university)
 
-  - Kirikkale University
   - Bachelor's Degree
-  - 2010-2017
-
-- [Physics](https://fizik.kku.edu.tr/)
-
-  - Kirikkale University
-  - _Dropout_
-  - 2008-2010
+  - Computer Science & Information Technology
+  - 2018 - 2022
+  - Grade: 3.8 GPA
+  - Core coursework in algorithms, data structures, relational database systems, and computer networks.

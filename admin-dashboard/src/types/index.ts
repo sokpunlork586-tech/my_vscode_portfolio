@@ -107,3 +107,79 @@ export interface DashboardOverview {
   unread_messages: number;
   system_status: string;
 }
+
+export interface Education {
+  id: number;
+  institution: string;
+  degree: string;
+  field_of_study?: string;
+  start_date: string;
+  end_date: string;
+  grade?: string;
+  description?: string;
+  url?: string;
+  order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Experience {
+  id: number;
+  company: string;
+  position: string;
+  location?: string;
+  employment_type?: string;
+  start_date: string;
+  end_date: string;
+  is_current: boolean;
+  description: string;
+  technologies: string;
+  company_url?: string;
+  order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Certificate {
+  id: number;
+  title: string;
+  issuer: string;
+  issue_date?: string;
+  expiration_date?: string;
+  credential_id?: string;
+  credential_url?: string;
+  image_url?: string;
+  description?: string;
+  order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ContactInfo {
+  id: number;
+  developer_name: string;
+  professional_title: string;
+  email: string;
+  phone?: string;
+  location: string;
+  timezone: string;
+  preferred_method: string;
+  response_window: string;
+  availability_status: string;
+  github_url: string;
+  linkedin_url: string;
+  bio_note?: string;
+  updated_at: string;
+}
+
+export interface SocialLink {
+  id: number;
+  platform: string;
+  url: string;
+  icon: string;
+  username: string;
+  order: number;
+  is_visible: boolean;
+  created_at: string;
+  updated_at: string;
+}

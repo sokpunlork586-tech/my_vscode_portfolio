@@ -13,6 +13,10 @@ import {
   FolderOpen,
   Sparkles,
   User,
+  GraduationCap,
+  Briefcase,
+  Award,
+  Mail,
 } from "lucide-react";
 import { useTabs, EditorTab } from "@/context/TabsContext";
 
@@ -26,6 +30,10 @@ const workspaceFiles: (EditorTab & { badge?: string })[] = [
   { name: "profile.json", url: "/profile", icon: User, color: "text-vscode-purple", badge: "Sidebar" },
   { name: "projects.tsx", url: "/projects", icon: FileCode, color: "text-vscode-cyan" },
   { name: "skills.ts", url: "/skills", icon: FileCode, color: "text-vscode-blue" },
+  { name: "education.md", url: "/education", icon: GraduationCap, color: "text-vscode-green" },
+  { name: "experience.json", url: "/experience", icon: Briefcase, color: "text-vscode-yellow" },
+  { name: "certificates.sass", url: "/certificates", icon: Award, color: "text-vscode-red" },
+  { name: "contact.json", url: "/contact", icon: Mail, color: "text-vscode-blue", badge: "Social" },
   { name: "inquiries.sql", url: "/messages", icon: FileSpreadsheet, color: "text-vscode-purple", badge: "Live" },
   { name: "settings.env", url: "/settings", icon: Settings2, color: "text-vscode-green" },
 ];

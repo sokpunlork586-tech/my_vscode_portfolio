@@ -1,15 +1,52 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Greeter from '@/views/Greeter';
-import staticData from '@/data/json/static.json';
-import contactData from '@/data/json/contact.json';
+import staticDataFallback from '@/data/json/static.json';
+import contactDataFallback from '@/data/json/contact.json';
 import pkg from '../../package.json';
+import { Static, ContactItem } from '@/models';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: 'Çağlar Turalı | Software Engineering Apprentice',
+  title: 'Punlork | Software Engineer & Full-Stack Developer',
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  let staticData: Static = staticDataFallback;
+  const contactData: ContactItem[] = contactDataFallback as unknown as ContactItem[];
+
+  try {
+    const introRes = await fetch('http://127.0.0.1:8000/api/v1/intro', { cache: 'no-store' });
+    if (introRes.ok) {
+      const data = await introRes.json();
+      if (data && data.main_line) {
+        staticData = {
+          mainLine: data.main_line,
+          typed: data.typed || staticDataFallback.typed,
+        };
+      }
+    }
+  } catch (err) {
+    // Graceful fallback
+  }
+
+  try {
+    const contactRes = await fetch('http://127.0.0.1:8000/api/v1/contact', { cache: 'no-store' });
+    if (contactRes.ok) {
+      const contact = await contactRes.json();
+      if (contact && contact.email) {
+        const emailContact = contactData.find((c) => c.isMain || c.name === 'Email');
+        if (emailContact) {
+          emailContact.url = `mailto:${contact.email}`;
+        }
+      }
+    }
+  } catch (err) {
+    // Graceful fallback
+  }
+
   return (
     <Greeter
       staticData={staticData}
