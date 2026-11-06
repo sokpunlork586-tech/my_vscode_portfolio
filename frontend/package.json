@@ -12,7 +12,7 @@
   "scripts": {
     "clean": "node -e \"require('fs').rmSync('.next', { recursive: true, force: true })\"",
     "predev": "node -e \"require('fs').rmSync('.next', { recursive: true, force: true })\"",
-    "dev": "next dev",
+    "dev": "next dev -H 127.0.0.1 -p 3000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
