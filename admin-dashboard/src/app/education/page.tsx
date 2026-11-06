@@ -303,9 +303,9 @@ export default function EducationPage() {
         {/* Modal */}
         {isModalOpen && (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
-            <div className="bg-vscode-bgDark border border-vscode-borderLight rounded-lg w-full max-w-xl shadow-2xl overflow-hidden my-8">
+            <div className="bg-vscode-bgDark border border-vscode-borderLight rounded-lg w-full max-w-xl shadow-2xl overflow-hidden my-4 max-h-[90vh] flex flex-col">
               {/* Modal Header */}
-              <div className="h-10 bg-vscode-bgMid px-4 flex items-center justify-between border-b border-vscode-border select-none">
+              <div className="h-10 bg-vscode-bgMid px-4 flex items-center justify-between border-b border-vscode-border select-none shrink-0">
                 <span className="font-bold text-vscode-textWhite">
                   {editingItem ? "Edit Education Record" : "Add Education Record"}
                 </span>
@@ -318,8 +318,8 @@ export default function EducationPage() {
               </div>
 
               {/* Modal Form */}
-              <form onSubmit={handleSave} className="p-5 space-y-3.5">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+              <form onSubmit={handleSave} className="p-4 sm:p-5 space-y-3.5 overflow-y-auto flex-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
                       Degree / Program *
@@ -349,7 +349,7 @@ export default function EducationPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
                       Field of Study
@@ -377,7 +377,7 @@ export default function EducationPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
                       Start Date / Year *

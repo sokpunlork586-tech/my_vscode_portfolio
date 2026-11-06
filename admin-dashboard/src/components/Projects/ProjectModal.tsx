@@ -152,7 +152,7 @@ export function ProjectModal({ isOpen, project, onClose, onSave }: ProjectModalP
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-vscode-textLight mb-1 text-[11px]">// slug_identifier</label>
               <input
@@ -203,7 +203,7 @@ export function ProjectModal({ isOpen, project, onClose, onSave }: ProjectModalP
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-vscode-textLight mb-1 text-[11px]">// live_demo_url</label>
               <input

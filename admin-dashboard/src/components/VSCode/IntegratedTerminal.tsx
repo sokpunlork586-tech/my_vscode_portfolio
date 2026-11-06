@@ -99,7 +99,7 @@ export const IntegratedTerminal = React.memo(function IntegratedTerminal({
                 <span className="text-vscode-green">[HEALTH]</span> Connection pool active. 5 models synchronized (users, projects, skills, messages, metrics).
               </p>
               <p className="text-vscode-textDark">
-                <span className="text-vscode-yellow">[SEED]</span> Admin user validated: admin@portfolio.com
+                <span className="text-vscode-green">[READY]</span> Admin user validated and ready.
               </p>
             </>
           )}

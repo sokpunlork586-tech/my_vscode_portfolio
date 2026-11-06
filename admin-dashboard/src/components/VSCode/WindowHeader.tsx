@@ -28,8 +28,10 @@ export const WindowHeader = React.memo(function WindowHeader() {
       </div>
 
       {/* Center: Window Title */}
-      <div className="text-[11px] text-vscode-textMid truncate font-mono tracking-wide opacity-80">
-        admin-dashboard — Visual Studio Code [Administrator]
+      <div className="text-[11px] text-vscode-textMid truncate font-mono tracking-wide opacity-80 px-2 text-center">
+        <span>admin-dashboard</span>
+        <span className="hidden sm:inline"> — Visual Studio Code</span>
+        <span className="hidden md:inline"> [Administrator]</span>
       </div>
 
       {/* Right: Window Controls */}

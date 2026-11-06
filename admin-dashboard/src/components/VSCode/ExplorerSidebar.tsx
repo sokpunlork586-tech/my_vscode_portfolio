@@ -17,11 +17,13 @@ import {
   Briefcase,
   Award,
   Mail,
+  X,
 } from "lucide-react";
 import { useTabs, EditorTab } from "@/context/TabsContext";
 
 interface ExplorerSidebarProps {
   isOpen: boolean;
+  onClose?: () => void;
 }
 
 const workspaceFiles: (EditorTab & { badge?: string })[] = [
@@ -40,28 +42,48 @@ const workspaceFiles: (EditorTab & { badge?: string })[] = [
 
 export const ExplorerSidebar = React.memo(function ExplorerSidebar({
   isOpen,
+  onClose,
 }: ExplorerSidebarProps) {
   const [folderOpen, setFolderOpen] = useState(true);
   const pathname = usePathname();
   const { openTab, activeTab } = useTabs();
 
+  const handleSelectFile = (file: EditorTab) => {
+    openTab(file);
+    if (typeof window !== "undefined" && window.innerWidth < 768 && onClose) {
+      onClose();
+    }
+  };
+
   return (
     <aside
-      className={`bg-vscode-bgDark flex flex-col select-none shrink-0 text-xs overflow-hidden transition-[width,opacity] duration-200 ease-ide will-change-[width,opacity] ${
+      className={`bg-vscode-bgDark flex flex-col select-none shrink-0 text-xs overflow-hidden transition-[width,opacity,transform] duration-200 ease-ide will-change-[width,opacity] z-30 ${
         isOpen
-          ? "w-56 opacity-100 border-r border-vscode-border"
-          : "w-0 opacity-0 pointer-events-none border-none"
+          ? "w-60 md:w-56 opacity-100 border-r border-vscode-border fixed md:relative left-12 md:left-0 top-8 bottom-6 md:top-auto md:bottom-auto shadow-2xl md:shadow-none"
+          : "w-0 opacity-0 pointer-events-none border-none hidden md:flex"
       }`}
     >
-      <div className="w-56 flex flex-col h-full min-h-0">
+      <div className="w-60 md:w-56 flex flex-col h-full min-h-0">
         {/* Explorer Title */}
-        <div className="h-9 px-4 flex items-center justify-between text-[11px] font-bold text-vscode-textLight uppercase tracking-wider border-b border-vscode-border">
+        <div className="h-9 px-3.5 flex items-center justify-between text-[11px] font-bold text-vscode-textLight uppercase tracking-wider border-b border-vscode-border">
           <span>Explorer</span>
-          <span className="text-[10px] text-vscode-textDark font-mono">WORKSPACE</span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-[10px] text-vscode-textDark font-mono hidden sm:inline">WORKSPACE</span>
+            {onClose && (
+              <button
+                onClick={onClose}
+                className="p-1 rounded text-vscode-textDark hover:text-white hover:bg-vscode-bgHover md:hidden"
+                title="Close Explorer"
+                aria-label="Close Explorer"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Workspace Folder Tree */}
-        <div className="py-1">
+        <div className="py-1 flex-1 overflow-y-auto">
           <button
             onClick={() => setFolderOpen(!folderOpen)}
             className="w-full flex items-center gap-1.5 px-2 py-1 text-vscode-textWhite font-semibold hover:bg-vscode-bgHover text-[11px] transition-colors"
@@ -80,7 +102,7 @@ export const ExplorerSidebar = React.memo(function ExplorerSidebar({
           </button>
 
           {folderOpen && (
-            <div className="mt-0.5 space-y-0.5 pl-3">
+            <div className="mt-0.5 space-y-0.5 pl-3 pr-2">
               {workspaceFiles.map((file) => {
                 const Icon = file.icon;
                 const isActive = activeTab?.url === file.url;
@@ -88,8 +110,8 @@ export const ExplorerSidebar = React.memo(function ExplorerSidebar({
                 return (
                   <button
                     key={file.name}
-                    onClick={() => openTab(file)}
-                    className={`w-full flex items-center justify-between px-3 py-1.5 rounded-sm text-xs transition-all duration-150 text-left active:scale-[0.99] ${
+                    onClick={() => handleSelectFile(file)}
+                    className={`w-full flex items-center justify-between px-3 py-1.5 rounded-sm text-xs transition-all duration-150 text-left active:scale-[0.99] min-h-[32px] ${
                       isActive
                         ? "bg-vscode-bgHover text-vscode-textWhite font-medium border-l-2 border-vscode-blueActive shadow-xs"
                         : "text-vscode-textLight hover:text-vscode-textWhite hover:bg-vscode-bgHover/60"
@@ -109,14 +131,6 @@ export const ExplorerSidebar = React.memo(function ExplorerSidebar({
               })}
             </div>
           )}
-        </div>
-
-        {/* Outline Section */}
-        <div className="mt-auto border-t border-vscode-border p-3 text-vscode-textDark text-[11px]">
-          <div className="flex items-center justify-between">
-            <span>PORTFOLIO v2.0</span>
-            <span className="text-vscode-green font-mono text-[10px]">FASTAPI: ACTIVE</span>
-          </div>
         </div>
       </div>
     </aside>

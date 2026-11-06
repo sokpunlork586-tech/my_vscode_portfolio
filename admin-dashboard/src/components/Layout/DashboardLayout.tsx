@@ -18,9 +18,17 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { openTabs, openTab, initialAvailableTabs } = useTabs();
 
+  // On mobile / small tablet viewports, collapse explorer by default
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      setExplorerOpen(false);
+    }
+  }, []);
+
   const isCurrentTabOpen = openTabs.some((tab) => tab.url === pathname);
 
   const handleToggleExplorer = React.useCallback(() => setExplorerOpen((prev) => !prev), []);
+  const handleCloseExplorer = React.useCallback(() => setExplorerOpen(false), []);
   const handleToggleTerminal = React.useCallback(() => setTerminalOpen((prev) => !prev), []);
   const handleCloseTerminal = React.useCallback(() => setTerminalOpen(false), []);
 
@@ -45,12 +53,12 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthGuard>
-      <div className="h-screen w-screen bg-vscode-bgDark flex flex-col overflow-hidden font-sans select-none">
+      <div className="h-screen w-full max-w-full bg-vscode-bgDark flex flex-col overflow-hidden font-sans select-none">
         {/* 1. Window Title Bar */}
         <WindowHeader />
 
         {/* 2. Main Workbench Area */}
-        <div className="flex-1 flex min-h-0 overflow-hidden">
+        <div className="flex-1 flex min-h-0 overflow-hidden relative">
           {/* Left Activity Bar */}
           <ActivityBar
             explorerOpen={explorerOpen}
@@ -59,8 +67,17 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             onToggleTerminal={handleToggleTerminal}
           />
 
+          {/* Mobile Overlay Backdrop */}
+          {explorerOpen && (
+            <div
+              onClick={handleCloseExplorer}
+              className="fixed inset-0 bg-black/60 z-20 md:hidden backdrop-blur-xs transition-opacity duration-200"
+              aria-hidden="true"
+            />
+          )}
+
           {/* Explorer Sidebar */}
-          <ExplorerSidebar isOpen={explorerOpen} />
+          <ExplorerSidebar isOpen={explorerOpen} onClose={handleCloseExplorer} />
 
           {/* Main Editor Workbench */}
           <div className="flex-1 flex flex-col min-w-0 bg-vscode-bgMid overflow-hidden">
@@ -68,7 +85,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <EditorTabs />
 
             {/* Scrollable Content Canvas */}
-            <div className="flex-1 overflow-y-auto p-6 text-vscode-textLight">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-5 md:p-6 text-vscode-textLight">
               {isCurrentTabOpen ? (
                 <div key={pathname} className="animate-pageFadeIn will-change-[transform,opacity]">
                   {children}

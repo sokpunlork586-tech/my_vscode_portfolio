@@ -22,7 +22,7 @@ export default {
     fontWeight: 400,
     left: '0',
     position: 'fixed',
-    width: '100vw',
+    width: '100%',
     height: heights.statusBar,
     zIndex: 200,
     overflow: 'hidden',

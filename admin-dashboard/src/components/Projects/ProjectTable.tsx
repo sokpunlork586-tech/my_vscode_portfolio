@@ -38,7 +38,7 @@ export const ProjectTable = React.memo(function ProjectTable({
   return (
     <div className="bg-vscode-bgDark border border-vscode-borderLight rounded-md overflow-hidden font-mono text-xs">
       <div className="overflow-x-auto">
-        <table className="w-full text-left text-vscode-textLight">
+        <table className="w-full text-left text-vscode-textLight min-w-[580px]">
           <thead className="bg-vscode-bgDark border-b border-vscode-border text-vscode-textDark uppercase tracking-wider text-[10px]">
             <tr>
               <th className="px-4 py-2.5 font-medium"># Title / Slug</th>

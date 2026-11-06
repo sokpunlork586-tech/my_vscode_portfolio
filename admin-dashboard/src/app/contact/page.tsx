@@ -529,8 +529,8 @@ export default function ContactManagementPage() {
         {/* Social Link Modal */}
         {isSocialModalOpen && (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
-            <div className="bg-vscode-bgDark border border-vscode-borderLight rounded-lg w-full max-w-md shadow-2xl overflow-hidden my-8">
-              <div className="h-10 bg-vscode-bgMid px-4 flex items-center justify-between border-b border-vscode-border select-none">
+            <div className="bg-vscode-bgDark border border-vscode-borderLight rounded-lg w-full max-w-md shadow-2xl overflow-hidden my-4 max-h-[90vh] flex flex-col">
+              <div className="h-10 bg-vscode-bgMid px-4 flex items-center justify-between border-b border-vscode-border select-none shrink-0">
                 <span className="font-bold text-vscode-textWhite">
                   {editingSocial ? "Edit Social Link" : "Add Social Link"}
                 </span>
@@ -542,7 +542,7 @@ export default function ContactManagementPage() {
                 </button>
               </div>
 
-              <form onSubmit={handleSaveSocial} className="p-5 space-y-3.5">
+              <form onSubmit={handleSaveSocial} className="p-4 sm:p-5 space-y-3.5 overflow-y-auto flex-1">
                 <div>
                   <label className="block text-vscode-textLight mb-1 text-[11px]">
                     Platform Name *
@@ -571,7 +571,7 @@ export default function ContactManagementPage() {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
                       Display Text / Username
@@ -604,7 +604,7 @@ export default function ContactManagementPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3.5 items-center">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 items-center">
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
                       Display Order

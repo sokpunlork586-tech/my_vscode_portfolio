@@ -61,6 +61,17 @@ img {
   height: auto;
 }
 
+/* Prevent code block blowout on mobile */
+pre {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+code {
+  word-break: break-word;
+}
+
 /* Scrollbar styles to match VS Code dark theme */
 ::-webkit-scrollbar {
   width: 10px;

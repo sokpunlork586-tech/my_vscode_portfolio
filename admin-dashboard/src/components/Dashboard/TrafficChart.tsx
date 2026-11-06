@@ -19,14 +19,14 @@ interface TrafficChartProps {
 export const TrafficChart = React.memo(function TrafficChart({ data }: TrafficChartProps) {
   return (
     <div className="bg-vscode-bgDark border border-vscode-borderLight rounded-md p-4 transition-colors">
-      <div className="flex items-center justify-between mb-4 pb-2 border-b border-vscode-border">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-4 pb-2 border-b border-vscode-border">
         <div>
           <h2 className="text-xs font-semibold text-vscode-textWhite font-mono">
             telemetry.analytics.traffic_chart
           </h2>
           <p className="text-[11px] text-vscode-textDark font-mono">Monthly impressions & engagement trends</p>
         </div>
-        <div className="flex items-center gap-4 text-[11px] font-mono">
+        <div className="flex items-center gap-4 text-[11px] font-mono shrink-0">
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-vscode-blue"></span>
             <span className="text-vscode-textLight">Pageviews</span>
