@@ -1,6 +1,9 @@
 name: Telegram Vercel Deployment Notification
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       status:
@@ -21,7 +24,7 @@ on:
       url:
         description: 'Deployment URL'
         required: false
-        default: 'https://vscode-portfolio-xi-wine.vercel.app'
+        default: 'https://vscode-portfolio-self.vercel.app'
         type: string
   repository_dispatch:
     types:
@@ -64,11 +67,13 @@ jobs:
           set -e
 
           if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
-            TARGET_URL="${INPUT_URL:-https://vscode-portfolio-xi-wine.vercel.app}"
+            TARGET_URL="${INPUT_URL:-https://vscode-portfolio-self.vercel.app}"
           elif [ "$EVENT_NAME" = "deployment_status" ]; then
-            TARGET_URL="${DEPLOY_TARGET_URL:-${DEPLOY_ENV_URL:-https://vscode-portfolio-xi-wine.vercel.app}}"
+            TARGET_URL="${DEPLOY_TARGET_URL:-${DEPLOY_ENV_URL:-https://vscode-portfolio-self.vercel.app}}"
+          elif [ "$EVENT_NAME" = "push" ]; then
+            TARGET_URL="https://vscode-portfolio-self.vercel.app"
           else
-            TARGET_URL="${DISPATCH_URL:-https://vscode-portfolio-xi-wine.vercel.app}"
+            TARGET_URL="${DISPATCH_URL:-https://vscode-portfolio-self.vercel.app}"
           fi
 
           echo "Target URL for Playwright: $TARGET_URL"
@@ -85,6 +90,9 @@ jobs:
           CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           EVENT_NAME: ${{ github.event_name }}
           REPOSITORY: ${{ github.repository }}
+          COMMIT_SHA: ${{ github.sha }}
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+          COMMIT_AUTHOR: ${{ github.actor }}
           INPUT_STATUS: ${{ inputs.status }}
           INPUT_ENVIRONMENT: ${{ inputs.environment }}
           INPUT_URL: ${{ inputs.url }}
@@ -108,7 +116,15 @@ jobs:
             exit 1
           fi
 
-          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+          if [ "$EVENT_NAME" = "push" ]; then
+            STATUS="SUCCESS"
+            EMOJI="🚀"
+            HEADER="PRODUCTION DEPLOYMENT VERIFIED"
+            EVENT_TYPE="git.push.production"
+            ENVIRONMENT="Production"
+            DEPLOY_URL="https://vscode-portfolio-self.vercel.app"
+
+          elif [ "$EVENT_NAME" = "workflow_dispatch" ]; then
             TEST_STATUS="${INPUT_STATUS:-manual}"
             case "$TEST_STATUS" in
               success)
@@ -134,7 +150,7 @@ jobs:
             esac
             EVENT_TYPE="workflow_dispatch"
             ENVIRONMENT="${INPUT_ENVIRONMENT:-Production}"
-            DEPLOY_URL="${INPUT_URL:-https://vscode-portfolio-xi-wine.vercel.app}"
+            DEPLOY_URL="${INPUT_URL:-https://vscode-portfolio-self.vercel.app}"
 
           elif [ "$EVENT_NAME" = "deployment_status" ]; then
             case "$DEPLOY_STATE" in
@@ -202,8 +218,10 @@ jobs:
               "$P_STATUS" "$P_DURATION" "$P_TITLE")
           fi
 
-          MESSAGE=$(printf "%s %s\n\nStatus: %s\nRepository: %s\nEnvironment: %s\nDeployment URL: %s\n\n%s\n\nEvent: %s" \
-            "$EMOJI" "$HEADER" "$STATUS" "$REPOSITORY" "$ENVIRONMENT" "$DEPLOY_URL" "$PLAYWRIGHT_INFO" "$EVENT_TYPE")
+          SHORT_SHA="${COMMIT_SHA:0:7}"
+          CLEAN_MSG=$(echo "${COMMIT_MSG:-}" | head -n 1 | tr -d '"\r\n')
+          MESSAGE=$(printf "%s %s\n\nStatus: %s\nRepository: %s\nEnvironment: %s\nCommit: %s (%s)\nBy: %s\nDeployment URL: %s\n\n%s\n\nTrigger: %s" \
+            "$EMOJI" "$HEADER" "$STATUS" "$REPOSITORY" "$ENVIRONMENT" "$SHORT_SHA" "$CLEAN_MSG" "${COMMIT_AUTHOR:-unknown}" "$DEPLOY_URL" "$PLAYWRIGHT_INFO" "$EVENT_TYPE")
 
           CLEAN_TOKEN=$(echo -n "${BOT_TOKEN}" | tr -d '[:space:]' | sed 's/^bot//')
           CLEAN_CHAT_ID=$(echo -n "${CHAT_ID}" | tr -d '[:space:]')

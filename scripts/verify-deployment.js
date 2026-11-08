@@ -6,8 +6,17 @@ const fs = require('fs');
 const path = require('path');
 
 async function verifyDeployment() {
-  const targetUrl = process.env.DEPLOY_URL || process.argv[2] || 'https://vscode-portfolio-xi-wine.vercel.app';
-  console.log(`[Playwright] Verifying deployment: ${targetUrl}`);
+  const targetUrl =
+    process.env.DEPLOY_URL ||
+    process.argv[2] ||
+    'https://vscode-portfolio-self.vercel.app';
+
+  console.log(`[Playwright] Target URL: ${targetUrl}`);
+
+  if (process.env.EVENT_NAME === 'push') {
+    console.log('[Playwright] Triggered by git push. Waiting 35s for Vercel production deployment to complete...');
+    await new Promise((resolve) => setTimeout(resolve, 35000));
+  }
 
   let playwright;
   try {
@@ -39,21 +48,35 @@ async function verifyDeployment() {
   let hasContact = false;
 
   try {
-    const response = await page.goto(targetUrl, {
-      waitUntil: 'domcontentloaded',
-      timeout: 30000,
-    });
+    let response = null;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        console.log(`[Playwright] Navigating to ${targetUrl} (Attempt ${attempt}/3)...`);
+        response = await page.goto(targetUrl, {
+          waitUntil: 'domcontentloaded',
+          timeout: 30000,
+        });
+        if (response && response.status() === 200) {
+          break;
+        }
+      } catch (navErr) {
+        console.warn(`[Playwright] Attempt ${attempt} warning: ${navErr.message}`);
+        if (attempt < 3) {
+          await new Promise((r) => setTimeout(r, 5000));
+        }
+      }
+    }
 
     if (response) {
       httpStatus = response.status();
     }
 
-    // Wait a brief moment for dynamic client rendering (Next.js hydration)
-    await page.waitForTimeout(1500);
+    // Wait for client-side React/Next.js hydration
+    await page.waitForTimeout(2000);
 
     pageTitle = await page.title();
 
-    // Check for sections
+    // Check for sections on homepage
     hasSkills = (await page.$('#skills, .skills, [data-section="skills"]')) !== null;
     hasEducation = (await page.$('#education, .education')) !== null;
     hasProjects = (await page.$('#projects, .projects')) !== null;
