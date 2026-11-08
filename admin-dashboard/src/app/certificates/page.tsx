@@ -20,6 +20,7 @@ import { DashboardLayout } from "@/components/Layout/DashboardLayout";
 import { certificateService } from "@/services/certificateService";
 import { uploadService } from "@/services/uploadService";
 import { Certificate } from "@/types";
+import { resolveMediaUrl } from "@/services/api";
 
 export default function CertificatesPage() {
   const [items, setItems] = useState<Certificate[]>([]);
@@ -285,10 +286,10 @@ export default function CertificatesPage() {
                     </p>
                   )}
 
-                  {item.image_url && (
+                  {item.image_url && resolveMediaUrl(item.image_url) && (
                     <div className="pt-1.5">
                       <img
-                        src={item.image_url.startsWith("http") ? item.image_url : `http://127.0.0.1:8000${item.image_url}`}
+                        src={resolveMediaUrl(item.image_url)!}
                         alt={item.title}
                         className="h-16 max-w-full rounded border border-vscode-border object-contain bg-black/40 p-1"
                         onError={(e) => {

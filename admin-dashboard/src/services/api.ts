@@ -1,4 +1,9 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/v1";
+export function getBaseUrl(): string {
+  if (process.env.NEXT_PUBLIC_API_BASE_URL) {
+    return process.env.NEXT_PUBLIC_API_BASE_URL.replace(/\/$/, "");
+  }
+  return "http://127.0.0.1:8000/api/v1";
+}
 
 export function resolveMediaUrl(rawUrl?: string | null): string | null {
   if (!rawUrl) return null;
@@ -10,10 +15,7 @@ export function resolveMediaUrl(rawUrl?: string | null): string | null {
     return cleanUrl;
   }
   if (cleanUrl.startsWith("http://")) {
-    if (typeof window !== "undefined" && window.location.protocol === "https:") {
-      return cleanUrl.replace(/^http:\/\//, "https://");
-    }
-    return cleanUrl;
+    return cleanUrl.replace(/^http:\/\//, "https://");
   }
 
   const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -22,8 +24,11 @@ export function resolveMediaUrl(rawUrl?: string | null): string | null {
     return `${origin}${cleanUrl.startsWith("/") ? "" : "/"}${cleanUrl}`;
   }
 
-  // Prevent mixed-content console warnings when running on HTTPS without configured backend
-  if (typeof window !== "undefined" && window.location.protocol === "https:") {
+  // In production (Vercel, Docker, etc.) or on HTTPS pages, NEVER fallback to http://localhost
+  // to avoid Mixed Content errors during SSR and client runtime.
+  const isProd = process.env.NODE_ENV === "production" || !!process.env.VERCEL;
+  const isHttps = typeof window !== "undefined" && window.location.protocol === "https:";
+  if (isProd || isHttps) {
     return null;
   }
 
@@ -71,7 +76,8 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
     headers.set("Authorization", `Bearer ${token}`);
   }
 
-  const url = `${BASE_URL}${endpoint}`;
+  const baseUrl = getBaseUrl();
+  const url = `${baseUrl}${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
   const response = await fetch(url, {
     ...options,
     headers,
