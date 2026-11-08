@@ -17,6 +17,13 @@
 .env.production
 .env.production.local
 
+# Playwright & test artifacts
+.playwright-mcp/
+test-results/
+playwright-report/
+screenshot.png
+playwright-summary.json
+
 # Explicitly preserve template / example files
 !.env.example
 !.env.template
