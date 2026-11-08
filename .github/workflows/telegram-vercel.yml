@@ -1,6 +1,6 @@
 name: Telegram Vercel Deployment Notification
 
-'on':
+on:
   workflow_dispatch:
     inputs:
       status:
@@ -161,21 +161,30 @@ jobs:
           MESSAGE=$(printf "%s %s\n\nStatus: %s\nRepository: %s\nEnvironment: %s\nDeployment URL: %s\nEvent: %s" \
             "$EMOJI" "$HEADER" "$STATUS" "$REPOSITORY" "$ENVIRONMENT" "$DEPLOY_URL" "$EVENT_TYPE")
 
-          CLEAN_TOKEN="${BOT_TOKEN#bot}"
+          CLEAN_TOKEN=$(echo -n "${BOT_TOKEN}" | tr -d '[:space:]' | sed 's/^bot//')
+          CLEAN_CHAT_ID=$(echo -n "${CHAT_ID}" | tr -d '[:space:]')
 
           echo "Dispatching message to Telegram..."
+          set +e
           RESPONSE=$(curl --ipv4 --connect-timeout 15 --max-time 30 \
             --silent --show-error \
             --request POST \
             "https://api.telegram.org/bot${CLEAN_TOKEN}/sendMessage" \
-            --data-urlencode "chat_id=${CHAT_ID}" \
-            --data-urlencode "text=${MESSAGE}")
+            --data-urlencode "chat_id=${CLEAN_CHAT_ID}" \
+            --data-urlencode "text=${MESSAGE}" 2>&1)
+          CURL_EXIT=$?
+          set -e
 
           echo "Telegram API Response: $RESPONSE"
+
+          if [ $CURL_EXIT -ne 0 ]; then
+            echo "::error::Network error connecting to Telegram API (exit code $CURL_EXIT): $RESPONSE"
+            exit 1
+          fi
 
           if echo "$RESPONSE" | grep -q '"ok":true'; then
             echo "Notification sent successfully."
           else
-            echo "::error::Telegram API request failed: $RESPONSE"
+            echo "::error::Telegram API rejected request: $RESPONSE"
             exit 1
           fi
