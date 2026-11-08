@@ -1,0 +1,56 @@
+
+name: Telegram Vercel Deployment Notification
+
+on:
+  repository_dispatch:
+    types:
+      - vercel.deployment.success
+      - vercel.deployment.error
+      - vercel.deployment.failed
+      - vercel.deployment.canceled
+
+permissions:
+  contents: read
+
+jobs:
+  telegram-notification:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send Telegram Notification
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          EVENT_TYPE: ${{ github.event.action }}
+          REPOSITORY: ${{ github.repository }}
+          ENVIRONMENT: ${{ github.event.client_payload.environment }}
+          DEPLOY_URL: ${{ github.event.client_payload.url }}
+
+        run: |
+          case "$EVENT_TYPE" in
+            vercel.deployment.success)
+              STATUS="SUCCESS"
+              EMOJI="✅"
+              ;;
+            vercel.deployment.canceled)
+              STATUS="CANCELED"
+              EMOJI="⚠️"
+              ;;
+            *)
+              STATUS="FAILED"
+              EMOJI="❌"
+              ;;
+          esac
+
+          MESSAGE="$EMOJI VERCEL DEPLOYMENT $STATUS
+
+          Repository: $REPOSITORY
+          Environment: ${ENVIRONMENT:-Unknown}
+          Deployment URL: ${DEPLOY_URL:-Unavailable}
+          Event: $EVENT_TYPE"
+
+          curl --fail --silent --show-error \
+            --request POST \
+            "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            --data-urlencode "chat_id=${CHAT_ID}" \
+            --data-urlencode "text=${MESSAGE}"

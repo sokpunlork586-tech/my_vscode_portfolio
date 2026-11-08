@@ -32,7 +32,7 @@ function formatContactToMarkdown(contact: ContactInfoData): string {
     '---',
     `- **Developer:** ${contact.developer_name}`,
     `- **Role:** ${contact.professional_title}`,
-    `- **Email:** [${contact.email}](mailto:${contact.email})`,
+    `- **Email:** [${contact.email}](https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(contact.email)})`,
     `- **Status:** ${contact.availability_status}`,
     `- **Location:** ${contact.location} (${contact.timezone})`,
     `- **Preferred Contact:** ${contact.preferred_method}`,

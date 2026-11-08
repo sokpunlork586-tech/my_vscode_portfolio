@@ -40,7 +40,7 @@ export default async function HomePage() {
       if (contact && contact.email) {
         const emailContact = contactData.find((c) => c.isMain || c.name === 'Email');
         if (emailContact) {
-          emailContact.url = `mailto:${contact.email}`;
+          emailContact.url = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(contact.email)}`;
         }
       }
     }
