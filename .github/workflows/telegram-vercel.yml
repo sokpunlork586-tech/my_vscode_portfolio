@@ -1,56 +1,178 @@
-
 name: Telegram Vercel Deployment Notification
 
-on:
+'on':
+  workflow_dispatch:
+    inputs:
+      status:
+        description: 'Test Status'
+        required: true
+        default: 'manual'
+        type: choice
+        options:
+          - manual
+          - success
+          - failed
+          - canceled
+      environment:
+        description: 'Deployment Environment'
+        required: false
+        default: 'Production'
+        type: string
+      url:
+        description: 'Deployment URL'
+        required: false
+        default: 'https://vscode-portfolio-xi-wine.vercel.app'
+        type: string
   repository_dispatch:
     types:
       - vercel.deployment.success
       - vercel.deployment.error
       - vercel.deployment.failed
       - vercel.deployment.canceled
+  deployment_status:
 
 permissions:
   contents: read
+  deployments: read
 
 jobs:
   telegram-notification:
+    name: Send Telegram Notification
     runs-on: ubuntu-latest
+    if: >
+      github.event_name != 'deployment_status' ||
+      contains(fromJSON('["success", "failure", "error", "canceled"]'), github.event.deployment_status.state)
 
     steps:
-      - name: Send Telegram Notification
+      - name: Send Notification to Telegram
         env:
           BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          EVENT_TYPE: ${{ github.event.action }}
+          EVENT_NAME: ${{ github.event_name }}
           REPOSITORY: ${{ github.repository }}
-          ENVIRONMENT: ${{ github.event.client_payload.environment }}
-          DEPLOY_URL: ${{ github.event.client_payload.url }}
-
+          INPUT_STATUS: ${{ inputs.status }}
+          INPUT_ENVIRONMENT: ${{ inputs.environment }}
+          INPUT_URL: ${{ inputs.url }}
+          DISPATCH_ACTION: ${{ github.event.action }}
+          DISPATCH_ENV: ${{ github.event.client_payload.environment }}
+          DISPATCH_URL: ${{ github.event.client_payload.url }}
+          DEPLOY_STATE: ${{ github.event.deployment_status.state }}
+          DEPLOY_ENV: ${{ github.event.deployment.environment }}
+          DEPLOY_TARGET_URL: ${{ github.event.deployment_status.target_url }}
+          DEPLOY_ENV_URL: ${{ github.event.deployment_status.environment_url }}
         run: |
-          case "$EVENT_TYPE" in
-            vercel.deployment.success)
-              STATUS="SUCCESS"
-              EMOJI="✅"
-              ;;
-            vercel.deployment.canceled)
-              STATUS="CANCELED"
-              EMOJI="⚠️"
-              ;;
-            *)
-              STATUS="FAILED"
-              EMOJI="❌"
-              ;;
-          esac
+          set -eu
 
-          MESSAGE="$EMOJI VERCEL DEPLOYMENT $STATUS
+          if [ -z "${BOT_TOKEN:-}" ]; then
+            echo "::error::Secret TELEGRAM_BOT_TOKEN is not configured in this repository."
+            exit 1
+          fi
 
-          Repository: $REPOSITORY
-          Environment: ${ENVIRONMENT:-Unknown}
-          Deployment URL: ${DEPLOY_URL:-Unavailable}
-          Event: $EVENT_TYPE"
+          if [ -z "${CHAT_ID:-}" ]; then
+            echo "::error::Secret TELEGRAM_CHAT_ID is not configured in this repository."
+            exit 1
+          fi
 
-          curl --fail --silent --show-error \
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            TEST_STATUS="${INPUT_STATUS:-manual}"
+            case "$TEST_STATUS" in
+              success)
+                STATUS="SUCCESS"
+                EMOJI="✅"
+                HEADER="VERCEL DEPLOYMENT SUCCESS"
+                ;;
+              failed)
+                STATUS="FAILED"
+                EMOJI="❌"
+                HEADER="VERCEL DEPLOYMENT FAILED"
+                ;;
+              canceled)
+                STATUS="CANCELED"
+                EMOJI="⚠️"
+                HEADER="VERCEL DEPLOYMENT CANCELED"
+                ;;
+              *)
+                STATUS="MANUAL TEST"
+                EMOJI="🧪"
+                HEADER="TELEGRAM NOTIFICATION TEST"
+                ;;
+            esac
+            EVENT_TYPE="workflow_dispatch"
+            ENVIRONMENT="${INPUT_ENVIRONMENT:-Production}"
+            DEPLOY_URL="${INPUT_URL:-https://vscode-portfolio-xi-wine.vercel.app}"
+
+          elif [ "$EVENT_NAME" = "deployment_status" ]; then
+            case "$DEPLOY_STATE" in
+              success)
+                STATUS="SUCCESS"
+                EMOJI="✅"
+                HEADER="VERCEL DEPLOYMENT SUCCESS"
+                EVENT_TYPE="vercel.deployment.success"
+                ;;
+              canceled)
+                STATUS="CANCELED"
+                EMOJI="⚠️"
+                HEADER="VERCEL DEPLOYMENT CANCELED"
+                EVENT_TYPE="vercel.deployment.canceled"
+                ;;
+              failure|error)
+                STATUS="FAILED"
+                EMOJI="❌"
+                HEADER="VERCEL DEPLOYMENT FAILED"
+                EVENT_TYPE="vercel.deployment.failed"
+                ;;
+              *)
+                echo "Ignoring non-terminal deployment state: $DEPLOY_STATE"
+                exit 0
+                ;;
+            esac
+            ENVIRONMENT="${DEPLOY_ENV:-Production}"
+            DEPLOY_URL="${DEPLOY_TARGET_URL:-${DEPLOY_ENV_URL:-Unavailable}}"
+
+          else
+            EVENT_TYPE="${DISPATCH_ACTION:-unknown}"
+            ENVIRONMENT="${DISPATCH_ENV:-Production}"
+            DEPLOY_URL="${DISPATCH_URL:-Unavailable}"
+
+            case "$EVENT_TYPE" in
+              vercel.deployment.success)
+                STATUS="SUCCESS"
+                EMOJI="✅"
+                HEADER="VERCEL DEPLOYMENT SUCCESS"
+                ;;
+              vercel.deployment.canceled)
+                STATUS="CANCELED"
+                EMOJI="⚠️"
+                HEADER="VERCEL DEPLOYMENT CANCELED"
+                ;;
+              vercel.deployment.error|vercel.deployment.failed)
+                STATUS="FAILED"
+                EMOJI="❌"
+                HEADER="VERCEL DEPLOYMENT FAILED"
+                ;;
+              *)
+                STATUS="NOTIFICATION"
+                EMOJI="ℹ️"
+                HEADER="VERCEL DEPLOYMENT UPDATE"
+                ;;
+            esac
+          fi
+
+          MESSAGE=$(printf "%s %s\n\nStatus: %s\nRepository: %s\nEnvironment: %s\nDeployment URL: %s\nEvent: %s" \
+            "$EMOJI" "$HEADER" "$STATUS" "$REPOSITORY" "$ENVIRONMENT" "$DEPLOY_URL" "$EVENT_TYPE")
+
+          echo "Dispatching message to Telegram..."
+          RESPONSE=$(curl --silent --show-error \
             --request POST \
             "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
             --data-urlencode "chat_id=${CHAT_ID}" \
-            --data-urlencode "text=${MESSAGE}"
+            --data-urlencode "text=${MESSAGE}")
+
+          echo "Telegram API Response: $RESPONSE"
+
+          if echo "$RESPONSE" | grep -q '"ok":true'; then
+            echo "Notification sent successfully."
+          else
+            echo "::error::Telegram API request failed: $RESPONSE"
+            exit 1
+          fi
