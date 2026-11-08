@@ -32,6 +32,7 @@ const ButtonLink: React.FC<ButtonLinkProps> = ({
   count,
 }) => {
   const classes = useStyles();
+  const isMailto = href?.startsWith('mailto:');
 
   return (
     <a
@@ -39,8 +40,8 @@ const ButtonLink: React.FC<ButtonLinkProps> = ({
       href={href}
       aria-label={title}
       title={title}
-      target="_blank"
-      rel="noopener noreferrer"
+      target={isMailto ? undefined : '_blank'}
+      rel={isMailto ? undefined : 'noopener noreferrer'}
     >
       <span className={classes.contents}>
         <FontAwesomeIcon className="icon" icon={resolveIcon(icon)} size={size || 'lg'} />

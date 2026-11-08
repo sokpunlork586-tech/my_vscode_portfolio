@@ -18,6 +18,11 @@ export default {
       color: Color(lbIconColor).lighten(0.3).string(),
       transform: 'scale(1.08)',
     },
+    '&:focus-visible': {
+      outline: '2px solid #528bff',
+      outlineOffset: '2px',
+      borderRadius: '4px',
+    },
     '&:active': {
       transform: 'scale(0.96)',
     },

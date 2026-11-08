@@ -48,6 +48,8 @@ const IconLink: React.FC<ContactItem> = ({
     );
   }
 
+  const isMailto = url?.startsWith('mailto:');
+
   return (
     <a
       href={url}
@@ -55,8 +57,8 @@ const IconLink: React.FC<ContactItem> = ({
       className={classes.link}
       aria-label={`Find me on ${name}`}
       title={`Find me on ${name}`}
-      target="_blank"
-      rel="noopener noreferrer"
+      target={isMailto ? undefined : '_blank'}
+      rel={isMailto ? undefined : 'noopener noreferrer'}
     >
       {iconComp}
     </a>

@@ -20,6 +20,11 @@ export default {
       transform: 'translateY(-1px)',
       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)',
     },
+    '&:focus-visible': {
+      outline: '2px solid #528bff',
+      outlineOffset: '2px',
+      borderColor: '#528bff',
+    },
     '&:active': {
       transform: 'translateY(0)',
       boxShadow: 'none',
