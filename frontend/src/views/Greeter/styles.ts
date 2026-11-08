@@ -74,4 +74,45 @@ export default {
   '.typed-cursor': {
     color: midBlue,
   },
+  scrollIndicator: {
+    display: 'inline-flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '6px',
+    marginTop: '36px',
+    color: '#636d83',
+    fontSize: '1.2rem',
+    letterSpacing: '1.5px',
+    textTransform: 'uppercase',
+    textDecoration: 'none',
+    transition: 'color 0.2s ease, transform 0.2s ease',
+    cursor: 'pointer',
+    userSelect: 'none',
+    '&:hover': {
+      color: '#abb2bf',
+      transform: 'translateY(2px)',
+    },
+    '&:focus-visible': {
+      outline: '2px solid #528bff',
+      outlineOffset: '4px',
+      borderRadius: '4px',
+    },
+  },
+  scrollText: {
+    fontSize: '1.15rem',
+    fontWeight: 500,
+  },
+  scrollArrow: {
+    fontSize: '1.6rem',
+    lineHeight: 1,
+    animation: '$bounceArrow 1.6s ease-in-out infinite',
+  },
+  '@keyframes bounceArrow': {
+    '0%, 100%': {
+      transform: 'translateY(0)',
+    },
+    '50%': {
+      transform: 'translateY(5px)',
+    },
+  },
 } as Styles;

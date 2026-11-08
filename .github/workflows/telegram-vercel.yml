@@ -161,10 +161,13 @@ jobs:
           MESSAGE=$(printf "%s %s\n\nStatus: %s\nRepository: %s\nEnvironment: %s\nDeployment URL: %s\nEvent: %s" \
             "$EMOJI" "$HEADER" "$STATUS" "$REPOSITORY" "$ENVIRONMENT" "$DEPLOY_URL" "$EVENT_TYPE")
 
+          CLEAN_TOKEN="${BOT_TOKEN#bot}"
+
           echo "Dispatching message to Telegram..."
-          RESPONSE=$(curl --silent --show-error \
+          RESPONSE=$(curl --ipv4 --connect-timeout 15 --max-time 30 \
+            --silent --show-error \
             --request POST \
-            "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            "https://api.telegram.org/bot${CLEAN_TOKEN}/sendMessage" \
             --data-urlencode "chat_id=${CHAT_ID}" \
             --data-urlencode "text=${MESSAGE}")
 

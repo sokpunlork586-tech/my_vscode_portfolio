@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Greeter from '@/views/Greeter';
+import HomeOverview from '@/views/HomeOverview';
 import staticDataFallback from '@/data/json/static.json';
 import contactDataFallback from '@/data/json/contact.json';
 import pkg from '../../package.json';
@@ -49,10 +50,13 @@ export default async function HomePage() {
   }
 
   return (
-    <Greeter
-      staticData={staticData}
-      contactData={contactData}
-      repoUrl={pkg.repository.url}
-    />
+    <>
+      <Greeter
+        staticData={staticData}
+        contactData={contactData}
+        repoUrl={pkg.repository.url}
+      />
+      <HomeOverview />
+    </>
   );
 }

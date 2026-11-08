@@ -25,19 +25,19 @@ exports[`<Greeter /> should render correctly 1`] = `
       </span>
     </div>
     <div
-      class="root-0-2-5"
+      class="root-0-2-9"
     >
       <div>
         <a
           aria-label="Follow @sokpunlork586-tech on GitHub"
-          class="root-0-2-6"
+          class="root-0-2-10"
           href="https://github.com/sokpunlork586-tech"
           rel="noopener noreferrer"
           target="_blank"
           title="Follow @sokpunlork586-tech on GitHub"
         >
           <span
-            class="contents-0-2-7"
+            class="contents-0-2-11"
           >
             <svg
               aria-hidden="true"
@@ -55,7 +55,7 @@ exports[`<Greeter /> should render correctly 1`] = `
               />
             </svg>
             <span
-              class="text-0-2-8"
+              class="text-0-2-12"
             >
               Follow @sokpunlork586-tech
             </span>
@@ -63,14 +63,14 @@ exports[`<Greeter /> should render correctly 1`] = `
         </a>
         <a
           aria-label="Star sokpunlork586-tech/my_vscode_portfolio on GitHub"
-          class="root-0-2-6"
+          class="root-0-2-10"
           href="https://github.com/sokpunlork586-tech/my_vscode_portfolio"
           rel="noopener noreferrer"
           target="_blank"
           title="Star sokpunlork586-tech/my_vscode_portfolio on GitHub"
         >
           <span
-            class="contents-0-2-7"
+            class="contents-0-2-11"
           >
             <svg
               aria-hidden="true"
@@ -88,7 +88,7 @@ exports[`<Greeter /> should render correctly 1`] = `
               />
             </svg>
             <span
-              class="text-0-2-8"
+              class="text-0-2-12"
             >
               Star
             </span>
@@ -98,14 +98,14 @@ exports[`<Greeter /> should render correctly 1`] = `
       <div>
         <a
           aria-label="Find me on Email"
-          class="root-0-2-6"
+          class="root-0-2-10"
           href="https://mail.google.com/mail/?view=cm&fs=1&to=sokpunlork586@gmail.com"
           rel="noopener noreferrer"
           target="_blank"
           title="Find me on Email"
         >
           <span
-            class="contents-0-2-7"
+            class="contents-0-2-11"
           >
             <svg
               aria-hidden="true"
@@ -123,7 +123,7 @@ exports[`<Greeter /> should render correctly 1`] = `
               />
             </svg>
             <span
-              class="text-0-2-8"
+              class="text-0-2-12"
             >
               Contact Me
             </span>
@@ -131,6 +131,22 @@ exports[`<Greeter /> should render correctly 1`] = `
         </a>
       </div>
     </div>
+    <a
+      aria-label="Scroll to overview"
+      class="scrollIndicator-0-2-5"
+      href="#overview"
+    >
+      <span
+        class="scrollText-0-2-6"
+      >
+        Scroll to explore
+      </span>
+      <span
+        class="scrollArrow-0-2-7"
+      >
+        ↓
+      </span>
+    </a>
   </section>
 </DocumentFragment>
 `;

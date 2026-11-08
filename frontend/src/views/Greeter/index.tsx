@@ -46,6 +46,10 @@ const Greeter: React.FC<GreeterProps> = ({
         <span id="typed-insert-point" style={{ whiteSpace: 'pre' }} />
       </div>
       <MainButtons contactData={contactData} repoUrl={repoUrl} />
+      <a href="#overview" className={classes.scrollIndicator} aria-label="Scroll to overview">
+        <span className={classes.scrollText}>Scroll to explore</span>
+        <span className={classes.scrollArrow}>↓</span>
+      </a>
     </section>
   );
 };
