@@ -4,8 +4,8 @@ from pydantic import BaseModel, Field, ConfigDict
 
 
 class SkillBase(BaseModel):
-    name: str
-    category: str
+    name: str = "New Skill"
+    category: str = "Frontend"
     proficiency: int = Field(default=80, ge=0, le=100)
     icon: Optional[str] = None
     order: int = 0

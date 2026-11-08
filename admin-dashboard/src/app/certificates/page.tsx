@@ -125,16 +125,14 @@ export default function CertificatesPage() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title.trim() || !issuer.trim()) {
-      showNotify("error", "Certificate Title and Issuer are required.");
-      return;
-    }
+    const finalTitle = title.trim() || "Certificate";
+    const finalIssuer = issuer.trim() || "Self / Issuer";
 
     try {
       setSubmitting(true);
       const payload = {
-        title: title.trim(),
-        issuer: issuer.trim(),
+        title: finalTitle,
+        issuer: finalIssuer,
         issue_date: issueDate.trim() || undefined,
         expiration_date: expirationDate.trim() || undefined,
         credential_id: credentialId.trim() || undefined,
@@ -360,11 +358,10 @@ export default function CertificatesPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
-                      Certificate Title *
+                      Certificate Title
                     </label>
                     <input
                       type="text"
-                      required
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                       placeholder="e.g. Full-Stack Web Development Specialization"
@@ -374,11 +371,10 @@ export default function CertificatesPage() {
 
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
-                      Issuing Organization *
+                      Issuing Organization
                     </label>
                     <input
                       type="text"
-                      required
                       value={issuer}
                       onChange={(e) => setIssuer(e.target.value)}
                       placeholder="e.g. Coursera, Meta, Google, AWS"

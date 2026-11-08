@@ -49,11 +49,15 @@ def create_skill(
     db: Session = Depends(get_db),
     current_user: User = Depends(require_admin),
 ) -> Any:
-    existing = db.query(Skill).filter(Skill.name == skill_in.name).first()
+    name = (skill_in.name or "").strip() or "New Skill"
+    existing = db.query(Skill).filter(Skill.name == name).first()
     if existing:
-        raise HTTPException(status_code=400, detail="Skill already exists.")
+        import time
+        name = f"{name} {int(time.time()) % 10000}"
     
-    skill = Skill(**skill_in.model_dump())
+    data = skill_in.model_dump()
+    data["name"] = name
+    skill = Skill(**data)
     db.add(skill)
     db.commit()
     db.refresh(skill)

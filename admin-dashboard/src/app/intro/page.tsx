@@ -85,9 +85,11 @@ export default function IntroPage() {
       setSaving(true);
       setError(null);
       setSuccessMessage(null);
+      const finalMainLine = mainLine.trim() || "Hi! I'm Punlork.";
+      const validTyped = typedLines.map((l) => l.trim()).filter((l) => l.length > 0);
       await introService.update({
-        main_line: mainLine,
-        typed: typedLines.filter((l) => l.trim().length > 0),
+        main_line: finalMainLine,
+        typed: validTyped.length > 0 ? validTyped : ["Software Developer", "Python Developer"],
       });
       setSuccessMessage("Committed & Synchronized to static.json successfully!");
       setTimeout(() => setSuccessMessage(null), 4000);
@@ -164,7 +166,6 @@ export default function IntroPage() {
                 </label>
                 <input
                   type="text"
-                  required
                   value={mainLine}
                   onChange={(e) => setMainLine(e.target.value)}
                   className="w-full bg-vscode-inputBg border border-vscode-borderLight rounded px-3 py-2 text-xs text-vscode-textWhite focus:outline-none focus:border-vscode-blueActive transition-colors"
@@ -199,7 +200,6 @@ export default function IntroPage() {
                       </span>
                       <input
                         type="text"
-                        required
                         value={line}
                         onChange={(e) => handleUpdateLine(idx, e.target.value)}
                         className="flex-1 bg-vscode-inputBg border border-vscode-borderLight rounded px-3 py-1.5 text-xs text-vscode-textWhite focus:outline-none focus:border-vscode-blueActive transition-colors"

@@ -104,18 +104,17 @@ export default function EducationPage() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!institution.trim() || !degree.trim() || !startDate.trim()) {
-      showNotify("error", "Institution, Degree, and Start Date are required.");
-      return;
-    }
+    const finalInstitution = institution.trim() || "Unspecified Institution";
+    const finalDegree = degree.trim() || "Program / Course";
+    const finalStart = startDate.trim() || "2024";
 
     try {
       setSubmitting(true);
       const payload = {
-        institution: institution.trim(),
-        degree: degree.trim(),
+        institution: finalInstitution,
+        degree: finalDegree,
         field_of_study: fieldOfStudy.trim() || undefined,
-        start_date: startDate.trim(),
+        start_date: finalStart,
         end_date: endDate.trim() || "Present",
         grade: grade.trim() || undefined,
         description: description.trim() || undefined,
@@ -322,11 +321,10 @@ export default function EducationPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
-                      Degree / Program *
+                      Degree / Program
                     </label>
                     <input
                       type="text"
-                      required
                       value={degree}
                       onChange={(e) => setDegree(e.target.value)}
                       placeholder="e.g. Software Engineering Apprenticeship"
@@ -336,11 +334,10 @@ export default function EducationPage() {
 
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
-                      Institution / Organization *
+                      Institution / Organization
                     </label>
                     <input
                       type="text"
-                      required
                       value={institution}
                       onChange={(e) => setInstitution(e.target.value)}
                       placeholder="e.g. University of Technology"
@@ -380,11 +377,10 @@ export default function EducationPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
-                      Start Date / Year *
+                      Start Date / Year
                     </label>
                     <input
                       type="text"
-                      required
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
                       placeholder="e.g. 2022"

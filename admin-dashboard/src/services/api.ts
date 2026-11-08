@@ -1,5 +1,35 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/v1";
 
+export function resolveMediaUrl(rawUrl?: string | null): string | null {
+  if (!rawUrl) return null;
+
+  // Strip hardcoded localhost / 127.0.0.1 URLs
+  const cleanUrl = rawUrl.replace(/^https?:\/\/(localhost|127\.0\.0\.1):[0-9]+/, "");
+
+  if (cleanUrl.startsWith("https://")) {
+    return cleanUrl;
+  }
+  if (cleanUrl.startsWith("http://")) {
+    if (typeof window !== "undefined" && window.location.protocol === "https:") {
+      return cleanUrl.replace(/^http:\/\//, "https://");
+    }
+    return cleanUrl;
+  }
+
+  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL;
+  if (apiBase) {
+    const origin = apiBase.replace(/\/api\/v1\/?$/, "");
+    return `${origin}${cleanUrl.startsWith("/") ? "" : "/"}${cleanUrl}`;
+  }
+
+  // Prevent mixed-content console warnings when running on HTTPS without configured backend
+  if (typeof window !== "undefined" && window.location.protocol === "https:") {
+    return null;
+  }
+
+  return `http://127.0.0.1:8000${cleanUrl.startsWith("/") ? "" : "/"}${cleanUrl}`;
+}
+
 class ApiError extends Error {
   status: number;
   data: any;

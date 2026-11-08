@@ -20,6 +20,7 @@ import {
 import { DashboardLayout } from "@/components/Layout/DashboardLayout";
 import { useAuth } from "@/context/AuthContext";
 import { authService } from "@/services/authService";
+import { resolveMediaUrl } from "@/services/api";
 
 export default function SettingsPage() {
   const { user, refreshUser } = useAuth();
@@ -52,11 +53,7 @@ export default function SettingsPage() {
   }, [previewUrl]);
 
   // Compute active avatar source
-  const currentAvatarSrc = user?.avatar_url
-    ? user.avatar_url.startsWith("http")
-      ? user.avatar_url
-      : `${(process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/v1").replace(/\/api\/v1\/?$/, "")}${user.avatar_url.startsWith("/") ? "" : "/"}${user.avatar_url}`
-    : null;
+  const currentAvatarSrc = resolveMediaUrl(user?.avatar_url);
 
   const displayAvatar = previewUrl || currentAvatarSrc;
 

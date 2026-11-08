@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import type { Metadata } from 'next';
 import MDTab from '@/components/MDTab';
+import { API_BASE_URL } from '@/utils/api';
 
 export const metadata: Metadata = {
   title: 'contact.json',
@@ -62,7 +63,7 @@ function formatContactToMarkdown(contact: ContactInfoData): string {
 
 export default async function ContactPage() {
   try {
-    const res = await fetch('http://127.0.0.1:8000/api/v1/contact', {
+    const res = await fetch(`${API_BASE_URL}/contact`, {
       cache: 'no-store',
     });
     if (res.ok) {

@@ -4,14 +4,14 @@ from pydantic import BaseModel, ConfigDict
 
 
 class ExperienceBase(BaseModel):
-    company: str
-    position: str
+    company: str = "Company"
+    position: str = "Role / Position"
     location: Optional[str] = None
     employment_type: Optional[str] = "Full-time"
-    start_date: str
+    start_date: str = "2024"
     end_date: str = "Present"
     is_current: bool = True
-    description: str
+    description: str = "Professional experience details."
     technologies: str = ""
     company_url: Optional[str] = None
     order: int = 0

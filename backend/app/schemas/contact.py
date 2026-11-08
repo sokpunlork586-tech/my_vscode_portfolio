@@ -41,8 +41,8 @@ class ContactInfoResponse(ContactInfoBase):
 
 
 class SocialLinkBase(BaseModel):
-    platform: str
-    url: str
+    platform: str = "Link"
+    url: str = "#"
     icon: str = "faLink"
     username: str = ""
     order: int = 0

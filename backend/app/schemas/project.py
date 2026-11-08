@@ -4,9 +4,9 @@ from pydantic import BaseModel, ConfigDict
 
 
 class ProjectBase(BaseModel):
-    title: str
-    slug: str
-    description: str
+    title: str = "Untitled Project"
+    slug: Optional[str] = None
+    description: Optional[str] = ""
     category: str = "Web App"
     tags: str = ""
     demo_url: Optional[str] = None

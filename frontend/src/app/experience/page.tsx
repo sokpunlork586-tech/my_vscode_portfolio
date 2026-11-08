@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import type { Metadata } from 'next';
 import MDTab from '@/components/MDTab';
+import { API_BASE_URL } from '@/utils/api';
 
 export const metadata: Metadata = {
   title: 'experience.json',
@@ -49,7 +50,7 @@ function formatExperienceToMarkdown(items: ExperienceItem[]): string {
 
 export default async function ExperiencePage() {
   try {
-    const res = await fetch('http://127.0.0.1:8000/api/v1/experience', {
+    const res = await fetch(`${API_BASE_URL}/experience`, {
       cache: 'no-store',
     });
     if (res.ok) {

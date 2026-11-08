@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import type { Metadata } from 'next';
 import MDTab from '@/components/MDTab';
+import { API_BASE_URL } from '@/utils/api';
 
 export const metadata: Metadata = {
   title: 'projects.config',
@@ -49,7 +50,7 @@ function formatProjectsToMarkdown(projects: ProjectItem[]): string {
 
 export default async function ProjectsPage() {
   try {
-    const res = await fetch('http://127.0.0.1:8000/api/v1/projects?page=1&page_size=100', {
+    const res = await fetch(`${API_BASE_URL}/projects?page=1&page_size=100`, {
       cache: 'no-store',
     });
     if (res.ok) {

@@ -4,8 +4,8 @@ from pydantic import BaseModel, ConfigDict
 
 
 class CertificateBase(BaseModel):
-    title: str
-    issuer: str
+    title: str = "Certificate"
+    issuer: str = "Self / Issuer"
     issue_date: Optional[str] = None
     expiration_date: Optional[str] = None
     credential_id: Optional[str] = None

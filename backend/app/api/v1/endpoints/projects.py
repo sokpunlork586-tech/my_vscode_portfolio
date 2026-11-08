@@ -93,11 +93,26 @@ def create_project(
     db: Session = Depends(get_db),
     current_user: User = Depends(require_admin),
 ) -> Any:
-    existing = db.query(Project).filter(Project.slug == project_in.slug).first()
-    if existing:
-        raise HTTPException(status_code=400, detail="A project with this slug already exists.")
+    data = project_in.model_dump()
+    if not (data.get("title") or "").strip():
+        data["title"] = "Untitled Project"
+    
+    slug = (data.get("slug") or "").strip()
+    if not slug:
+        import time, re
+        base = re.sub(r'[^a-zA-Z0-9]+', '-', data["title"].lower()).strip('-') or "project"
+        slug = f"{base}-{int(time.time())}"
+    data["slug"] = slug
 
-    project = Project(**project_in.model_dump())
+    if not data.get("description"):
+        data["description"] = "No description provided."
+
+    existing = db.query(Project).filter(Project.slug == slug).first()
+    if existing:
+        import time
+        data["slug"] = f"{slug}-{int(time.time())}"
+
+    project = Project(**data)
     db.add(project)
     db.commit()
     db.refresh(project)

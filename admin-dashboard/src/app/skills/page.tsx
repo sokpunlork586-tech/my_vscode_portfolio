@@ -70,17 +70,14 @@ export default function SkillsPage() {
 
   const handleSave = React.useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim()) {
-      showNotify("error", "Skill name is required.");
-      return;
-    }
+    const finalName = name.trim() || "New Skill";
     try {
       setSubmitting(true);
       if (editingSkill) {
-        await skillService.update(editingSkill.id, { name: name.trim(), category, proficiency, order });
+        await skillService.update(editingSkill.id, { name: finalName, category, proficiency, order });
         showNotify("success", "Skill updated successfully.");
       } else {
-        await skillService.create({ name: name.trim(), category, proficiency, order });
+        await skillService.create({ name: finalName, category, proficiency, order });
         showNotify("success", "Skill created successfully.");
       }
       setIsModalOpen(false);
@@ -252,11 +249,10 @@ export default function SkillsPage() {
                 <label className="block text-vscode-textLight mb-1 text-[11px]">// skill_name</label>
                 <input
                   type="text"
-                  required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="w-full bg-vscode-inputBg border border-vscode-borderLight rounded px-3 py-1.5 text-xs text-vscode-textWhite focus:outline-none focus:border-vscode-blueActive"
-                  placeholder="e.g. Next.js, PostgreSQL"
+                  placeholder="e.g. Next.js, PostgreSQL (optional)"
                 />
               </div>
 

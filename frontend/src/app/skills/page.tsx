@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import type { Metadata } from 'next';
 import MDTab from '@/components/MDTab';
+import { API_BASE_URL } from '@/utils/api';
 
 export const metadata: Metadata = {
   title: 'skills.js',
@@ -38,7 +39,7 @@ function formatSkillsToMarkdown(items: SkillItem[]): string {
 
 export default async function SkillsPage() {
   try {
-    const res = await fetch('http://127.0.0.1:8000/api/v1/skills', {
+    const res = await fetch(`${API_BASE_URL}/skills`, {
       cache: 'no-store',
     });
     if (res.ok) {

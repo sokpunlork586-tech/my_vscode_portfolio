@@ -110,23 +110,23 @@ export default function ExperiencePage() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!company.trim() || !position.trim() || !startDate.trim() || !description.trim()) {
-      showNotify("error", "Company, Position, Start Date, and Description are required.");
-      return;
-    }
+    const finalCompany = company.trim() || "Company";
+    const finalPosition = position.trim() || "Role / Position";
+    const finalStart = startDate.trim() || "2024";
+    const finalDesc = description.trim() || "Professional experience details.";
 
     try {
       setSubmitting(true);
       const payload = {
-        company: company.trim(),
-        position: position.trim(),
+        company: finalCompany,
+        position: finalPosition,
         location: location.trim() || undefined,
         employment_type: employmentType.trim() || "Full-time",
-        start_date: startDate.trim(),
-        end_date: isCurrent ? "Present" : endDate.trim(),
+        start_date: finalStart,
+        end_date: isCurrent ? "Present" : (endDate.trim() || "Present"),
         is_current: isCurrent,
         technologies: technologies.trim(),
-        description: description.trim(),
+        description: finalDesc,
         company_url: companyUrl.trim() || undefined,
         order: Number(order) || 0,
       };
@@ -348,11 +348,10 @@ export default function ExperiencePage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
-                      Job Title / Position *
+                      Job Title / Position
                     </label>
                     <input
                       type="text"
-                      required
                       value={position}
                       onChange={(e) => setPosition(e.target.value)}
                       placeholder="e.g. Full-Stack Developer"
@@ -362,11 +361,10 @@ export default function ExperiencePage() {
 
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
-                      Company / Organization *
+                      Company / Organization
                     </label>
                     <input
                       type="text"
-                      required
                       value={company}
                       onChange={(e) => setCompany(e.target.value)}
                       placeholder="e.g. Tech Innovators Lab"
@@ -410,11 +408,10 @@ export default function ExperiencePage() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
-                      Start Date / Year *
+                      Start Date / Year
                     </label>
                     <input
                       type="text"
-                      required
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
                       placeholder="e.g. 2023"
@@ -493,14 +490,13 @@ export default function ExperiencePage() {
 
                 <div>
                   <label className="block text-vscode-textLight mb-1 text-[11px]">
-                    Responsibilities & Impact *
+                    Responsibilities & Impact
                   </label>
                   <textarea
                     rows={4}
-                    required
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Key achievements, technical implementations, microservices deployed, team leadership..."
+                    placeholder="Key achievements, technical implementations, microservices deployed, team leadership (optional)..."
                     className="w-full bg-vscode-inputBg border border-vscode-borderLight rounded px-2.5 py-1.5 text-xs text-vscode-textWhite focus:outline-none focus:border-vscode-blueActive resize-none"
                   />
                 </div>

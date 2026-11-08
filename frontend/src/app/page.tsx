@@ -5,6 +5,7 @@ import staticDataFallback from '@/data/json/static.json';
 import contactDataFallback from '@/data/json/contact.json';
 import pkg from '../../package.json';
 import { Static, ContactItem } from '@/models';
+import { API_BASE_URL } from '@/utils/api';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -18,7 +19,7 @@ export default async function HomePage() {
   const contactData: ContactItem[] = contactDataFallback as unknown as ContactItem[];
 
   try {
-    const introRes = await fetch('http://127.0.0.1:8000/api/v1/intro', { cache: 'no-store' });
+    const introRes = await fetch(`${API_BASE_URL}/intro`, { cache: 'no-store' });
     if (introRes.ok) {
       const data = await introRes.json();
       if (data && data.main_line) {
@@ -33,7 +34,7 @@ export default async function HomePage() {
   }
 
   try {
-    const contactRes = await fetch('http://127.0.0.1:8000/api/v1/contact', { cache: 'no-store' });
+    const contactRes = await fetch(`${API_BASE_URL}/contact`, { cache: 'no-store' });
     if (contactRes.ok) {
       const contact = await contactRes.json();
       if (contact && contact.email) {

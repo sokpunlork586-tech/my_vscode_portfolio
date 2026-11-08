@@ -4,10 +4,10 @@ from pydantic import BaseModel, ConfigDict
 
 
 class EducationBase(BaseModel):
-    institution: str
-    degree: str
+    institution: str = "Unspecified Institution"
+    degree: str = "Program / Course"
     field_of_study: Optional[str] = None
-    start_date: str
+    start_date: str = "2024"
     end_date: str = "Present"
     grade: Optional[str] = None
     description: Optional[str] = None

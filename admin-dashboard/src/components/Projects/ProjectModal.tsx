@@ -79,15 +79,28 @@ export function ProjectModal({ isOpen, project, onClose, onSave }: ProjectModalP
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.title || !formData.slug || !formData.description) {
-      setError("Title, slug, and description are required.");
-      return;
+    const finalTitle = (formData.title || "").trim() || "Untitled Project";
+    let finalSlug = (formData.slug || "").trim();
+    if (!finalSlug) {
+      finalSlug = finalTitle
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/[\s_-]+/g, "-")
+        .replace(/^-+|-+$/g, "") || `project-${Date.now()}`;
     }
+    const finalDesc = (formData.description || "").trim() || "No description provided.";
+
+    const payload = {
+      ...formData,
+      title: finalTitle,
+      slug: finalSlug,
+      description: finalDesc,
+    };
 
     try {
       setLoading(true);
       setError(null);
-      await onSave(formData);
+      await onSave(payload);
       onClose();
     } catch (err: any) {
       setError(err?.message || "Failed to save project.");
@@ -144,7 +157,6 @@ export function ProjectModal({ isOpen, project, onClose, onSave }: ProjectModalP
             <label className="block text-vscode-textLight mb-1 text-[11px]">// project_title</label>
             <input
               type="text"
-              required
               value={formData.title || ""}
               onChange={(e) => handleTitleChange(e.target.value)}
               className="w-full bg-vscode-inputBg border border-vscode-borderLight rounded px-3 py-1.5 text-xs text-vscode-textWhite focus:outline-none focus:border-vscode-blueActive"
@@ -157,11 +169,10 @@ export function ProjectModal({ isOpen, project, onClose, onSave }: ProjectModalP
               <label className="block text-vscode-textLight mb-1 text-[11px]">// slug_identifier</label>
               <input
                 type="text"
-                required
                 value={formData.slug || ""}
                 onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                 className="w-full bg-vscode-inputBg border border-vscode-borderLight rounded px-3 py-1.5 text-xs text-vscode-textWhite focus:outline-none focus:border-vscode-blueActive"
-                placeholder="project-slug"
+                placeholder="project-slug (optional, auto-generated)"
               />
             </div>
             <div>
@@ -184,11 +195,10 @@ export function ProjectModal({ isOpen, project, onClose, onSave }: ProjectModalP
             <label className="block text-vscode-textLight mb-1 text-[11px]">// description_markdown</label>
             <textarea
               rows={3}
-              required
               value={formData.description || ""}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className="w-full bg-vscode-inputBg border border-vscode-borderLight rounded px-3 py-1.5 text-xs text-vscode-textWhite focus:outline-none focus:border-vscode-blueActive"
-              placeholder="Detailed description..."
+              placeholder="Detailed description (optional)..."
             />
           </div>
 

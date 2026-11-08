@@ -12,16 +12,10 @@
     "React 18",
     "Next.js 14",
     "PostgreSQL",
-    "Node.js",
     "REST APIs",
     "Git"
   ],
   "quickNavigation": [
-    {
-      "label": "Software Engineering",
-      "href": "/swe",
-      "icon": "faGraduationCap"
-    },
     {
       "label": "Business Administration",
       "href": "/ba",

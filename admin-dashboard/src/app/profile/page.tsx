@@ -22,6 +22,7 @@ import { DashboardLayout } from "@/components/Layout/DashboardLayout";
 import { profileService } from "@/services/profileService";
 import { ProfileData, NavItem } from "@/types";
 import { useAuth } from "@/context/AuthContext";
+import { resolveMediaUrl } from "@/services/api";
 
 const PRESET_SKILLS = [
   "Python",
@@ -111,11 +112,7 @@ export default function ProfilePage() {
   }, [fetchProfile]);
 
   // Avatar source resolution
-  const avatarSrc = user?.avatar_url
-    ? user.avatar_url.startsWith("http")
-      ? user.avatar_url
-      : `${(process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/v1").replace(/\/api\/v1\/?$/, "")}${user.avatar_url.startsWith("/") ? "" : "/"}${user.avatar_url}`
-    : "/images/profile.png";
+  const avatarSrc = resolveMediaUrl(user?.avatar_url) || "/images/profile.png";
 
   const handleAddSkill = (skillToAdd: string) => {
     const trimmed = skillToAdd.trim();
@@ -150,10 +147,10 @@ export default function ProfilePage() {
       setStatusMessage(null);
 
       const payload: Partial<ProfileData> = {
-        name,
-        fullName,
-        role,
-        status,
+        name: name.trim() || "Punlork",
+        fullName: fullName.trim() || "Punlork Sok",
+        role: role.trim() || "Full-Stack Developer",
+        status: status.trim() || "Available for projects",
         techStack,
         quickNavigation: quickNav,
       };
@@ -241,7 +238,6 @@ export default function ProfilePage() {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    required
                     placeholder="e.g. Punlork"
                     className="w-full bg-vscode-inputBg border border-vscode-borderLight rounded px-2.5 py-1.5 text-vscode-textWhite focus:outline-none focus:border-vscode-blueActive"
                   />
@@ -274,7 +270,6 @@ export default function ProfilePage() {
                     type="text"
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
-                    required
                     placeholder="e.g. Full-Stack & Python Developer"
                     className="w-full bg-vscode-inputBg border border-vscode-borderLight rounded px-2.5 py-1.5 text-vscode-textWhite focus:outline-none focus:border-vscode-blueActive"
                   />
@@ -291,7 +286,6 @@ export default function ProfilePage() {
                     type="text"
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
-                    required
                     placeholder="e.g. Available for projects"
                     className="w-full bg-vscode-inputBg border border-vscode-borderLight rounded px-2.5 py-1.5 text-vscode-textWhite focus:outline-none focus:border-vscode-blueActive"
                   />

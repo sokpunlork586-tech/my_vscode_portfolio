@@ -75,17 +75,17 @@ export default function ContactManagementPage() {
     try {
       setSavingContact(true);
       const updated = await contactService.update({
-        developer_name: contactInfo.developer_name,
-        professional_title: contactInfo.professional_title,
-        email: contactInfo.email,
+        developer_name: contactInfo.developer_name?.trim() || "Developer",
+        professional_title: contactInfo.professional_title?.trim() || "Software Developer",
+        email: contactInfo.email?.trim() || "contact@example.com",
         phone: contactInfo.phone || undefined,
-        location: contactInfo.location,
-        timezone: contactInfo.timezone,
-        preferred_method: contactInfo.preferred_method,
-        response_window: contactInfo.response_window,
-        availability_status: contactInfo.availability_status,
-        github_url: contactInfo.github_url,
-        linkedin_url: contactInfo.linkedin_url,
+        location: contactInfo.location?.trim() || "Remote",
+        timezone: contactInfo.timezone?.trim() || "ICT (UTC+7)",
+        preferred_method: contactInfo.preferred_method?.trim() || "Email",
+        response_window: contactInfo.response_window?.trim() || "Within 24 hours",
+        availability_status: contactInfo.availability_status?.trim() || "Available for projects",
+        github_url: contactInfo.github_url?.trim() || "https://github.com",
+        linkedin_url: contactInfo.linkedin_url?.trim() || "https://linkedin.com",
         bio_note: contactInfo.bio_note || undefined,
       });
       setContactInfo(updated);
@@ -121,16 +121,14 @@ export default function ContactManagementPage() {
 
   const handleSaveSocial = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!socialPlatform.trim() || !socialUrl.trim()) {
-      showNotify("error", "Platform name and URL are required.");
-      return;
-    }
+    const finalPlatform = socialPlatform.trim() || "Link";
+    const finalUrl = socialUrl.trim() || "#";
 
     try {
       setSavingSocial(true);
       const payload = {
-        platform: socialPlatform.trim(),
-        url: socialUrl.trim(),
+        platform: finalPlatform,
+        url: finalUrl,
         icon: socialIcon.trim() || "faLink",
         username: socialUsername.trim(),
         order: Number(socialOrder) || 0,
@@ -224,11 +222,10 @@ export default function ContactManagementPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
-                      Developer Name *
+                      Developer Name
                     </label>
                     <input
                       type="text"
-                      required
                       value={contactInfo.developer_name}
                       onChange={(e) =>
                         setContactInfo({ ...contactInfo, developer_name: e.target.value })
@@ -239,11 +236,10 @@ export default function ContactManagementPage() {
 
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
-                      Professional Title *
+                      Professional Title
                     </label>
                     <input
                       type="text"
-                      required
                       value={contactInfo.professional_title}
                       onChange={(e) =>
                         setContactInfo({ ...contactInfo, professional_title: e.target.value })
@@ -256,11 +252,10 @@ export default function ContactManagementPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
-                      Primary Email Address *
+                      Primary Email Address
                     </label>
                     <input
                       type="email"
-                      required
                       value={contactInfo.email}
                       onChange={(e) =>
                         setContactInfo({ ...contactInfo, email: e.target.value })
@@ -288,13 +283,12 @@ export default function ContactManagementPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
-                      GitHub Profile URL *
+                      GitHub Profile URL
                     </label>
                     <div className="relative">
                       <Github className="w-3.5 h-3.5 text-vscode-textDark absolute left-2.5 top-1/2 -translate-y-1/2" />
                       <input
                         type="text"
-                        required
                         value={contactInfo.github_url}
                         onChange={(e) =>
                           setContactInfo({ ...contactInfo, github_url: e.target.value })
@@ -306,13 +300,12 @@ export default function ContactManagementPage() {
 
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
-                      LinkedIn Profile URL *
+                      LinkedIn Profile URL
                     </label>
                     <div className="relative">
                       <Linkedin className="w-3.5 h-3.5 text-vscode-textDark absolute left-2.5 top-1/2 -translate-y-1/2" />
                       <input
                         type="text"
-                        required
                         value={contactInfo.linkedin_url}
                         onChange={(e) =>
                           setContactInfo({ ...contactInfo, linkedin_url: e.target.value })
@@ -326,13 +319,12 @@ export default function ContactManagementPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
-                      Location / Country *
+                      Location / Country
                     </label>
                     <div className="relative">
                       <MapPin className="w-3.5 h-3.5 text-vscode-textDark absolute left-2.5 top-1/2 -translate-y-1/2" />
                       <input
                         type="text"
-                        required
                         value={contactInfo.location}
                         onChange={(e) =>
                           setContactInfo({ ...contactInfo, location: e.target.value })
@@ -344,13 +336,12 @@ export default function ContactManagementPage() {
 
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
-                      Timezone *
+                      Timezone
                     </label>
                     <div className="relative">
                       <Clock className="w-3.5 h-3.5 text-vscode-textDark absolute left-2.5 top-1/2 -translate-y-1/2" />
                       <input
                         type="text"
-                        required
                         value={contactInfo.timezone}
                         onChange={(e) =>
                           setContactInfo({ ...contactInfo, timezone: e.target.value })
@@ -365,7 +356,7 @@ export default function ContactManagementPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
-                      Preferred Contact Method *
+                      Preferred Contact Method
                     </label>
                     <select
                       value={contactInfo.preferred_method}
@@ -384,11 +375,10 @@ export default function ContactManagementPage() {
 
                   <div>
                     <label className="block text-vscode-textLight mb-1 text-[11px]">
-                      Response Window *
+                      Response Window
                     </label>
                     <input
                       type="text"
-                      required
                       value={contactInfo.response_window}
                       onChange={(e) =>
                         setContactInfo({ ...contactInfo, response_window: e.target.value })
@@ -401,11 +391,10 @@ export default function ContactManagementPage() {
 
                 <div>
                   <label className="block text-vscode-textLight mb-1 text-[11px]">
-                    Current Availability Status *
+                    Current Availability Status
                   </label>
                   <input
                     type="text"
-                    required
                     value={contactInfo.availability_status}
                     onChange={(e) =>
                       setContactInfo({ ...contactInfo, availability_status: e.target.value })
@@ -545,11 +534,10 @@ export default function ContactManagementPage() {
               <form onSubmit={handleSaveSocial} className="p-4 sm:p-5 space-y-3.5 overflow-y-auto flex-1">
                 <div>
                   <label className="block text-vscode-textLight mb-1 text-[11px]">
-                    Platform Name *
+                    Platform Name
                   </label>
                   <input
                     type="text"
-                    required
                     value={socialPlatform}
                     onChange={(e) => setSocialPlatform(e.target.value)}
                     placeholder="e.g. GitHub, LinkedIn, Telegram, X, Email"
@@ -559,11 +547,10 @@ export default function ContactManagementPage() {
 
                 <div>
                   <label className="block text-vscode-textLight mb-1 text-[11px]">
-                    Target URL *
+                    Target URL
                   </label>
                   <input
                     type="text"
-                    required
                     value={socialUrl}
                     onChange={(e) => setSocialUrl(e.target.value)}
                     placeholder="https://... or mailto:..."

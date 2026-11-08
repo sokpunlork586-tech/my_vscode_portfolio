@@ -12,6 +12,7 @@ import {
   LogOut,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { resolveMediaUrl } from "@/services/api";
 
 interface ActivityBarProps {
   explorerOpen: boolean;
@@ -28,11 +29,7 @@ export const ActivityBar = React.memo(function ActivityBar({
 }: ActivityBarProps) {
   const { user, logout } = useAuth();
 
-  const avatarSrc = user?.avatar_url
-    ? (user.avatar_url.startsWith("http")
-        ? user.avatar_url
-        : `${(process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/v1").replace(/\/api\/v1\/?$/, "")}${user.avatar_url.startsWith("/") ? "" : "/"}${user.avatar_url}`)
-    : null;
+  const avatarSrc = resolveMediaUrl(user?.avatar_url);
 
   return (
     <div className="w-12 bg-vscode-bgDark border-r border-vscode-border flex flex-col justify-between py-2 items-center select-none shrink-0 z-30">
